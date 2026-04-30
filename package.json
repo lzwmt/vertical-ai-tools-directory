@@ -8,7 +8,7 @@
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
     "build": "ASTRO_TELEMETRY_DISABLED=1 ASTRO_LOCAL_ADAPTER=node astro build",
     "build:cloudflare": "ASTRO_TELEMETRY_DISABLED=1 ASTRO_LOCAL_ADAPTER=cloudflare astro build",
-    "deploy:cloudflare": "ASTRO_TELEMETRY_DISABLED=1 ASTRO_LOCAL_ADAPTER=cloudflare astro build && wrangler deploy",
+    "deploy:cloudflare": "wrangler deploy",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
     "lint": "eslint .",
     "format": "prettier --write .",
@@ -46,6 +46,6 @@
     "prettier-plugin-astro": "^0.14.1",
     "typescript": "^5.9.3",
     "vitest": "^3.2.4",
-    "wrangler": "^4.86.0"
+    "wrangler": "^4.87.0"
   }
 }
