@@ -1,5 +1,7 @@
+import { getAssetsBaseUrl } from "@/lib/config/env";
+
 export function resolveAssetPath(path: string) {
-  const baseUrl = import.meta.env.R2_PUBLIC_BASE_URL;
+  const baseUrl = getAssetsBaseUrl();
   if (!baseUrl || path.startsWith("http")) {
     return path;
   }

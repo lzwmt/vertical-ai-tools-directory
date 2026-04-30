@@ -1,11 +1,12 @@
 import { drizzle } from "drizzle-orm/neon-http";
+import { getDatabaseUrl } from "@/lib/config/env";
 
 export function isDatabaseConfigured() {
-  return Boolean(import.meta.env.DATABASE_URL);
+  return Boolean(getDatabaseUrl());
 }
 
 export function getDb() {
-  const url = import.meta.env.DATABASE_URL;
+  const url = getDatabaseUrl();
   if (!url) {
     throw new Error("DATABASE_URL is not configured.");
   }

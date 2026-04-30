@@ -1,15 +1,16 @@
 import type { APIRoute } from "astro";
+import { getAssetsBaseUrl, getPublicSiteUrl } from "@/lib/config/env";
 import { isDatabaseConfigured } from "@/lib/db/client";
 import { isResendConfigured } from "@/lib/mail/resend";
 
 export const GET: APIRoute = async () => {
-  const assetDeliveryMode = import.meta.env.R2_PUBLIC_BASE_URL ? "r2" : "local-or-remote";
+  const assetDeliveryMode = getAssetsBaseUrl() ? "r2" : "local-or-remote";
 
   const payload = {
     status: "ok",
     timestamp: new Date().toISOString(),
     checks: {
-      siteUrlConfigured: Boolean(import.meta.env.PUBLIC_SITE_URL),
+      siteUrlConfigured: Boolean(getPublicSiteUrl()),
       databaseConfigured: isDatabaseConfigured(),
       resendConfigured: isResendConfigured(),
       assetDeliveryMode

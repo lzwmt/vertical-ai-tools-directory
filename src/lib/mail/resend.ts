@@ -1,11 +1,12 @@
 import { Resend } from "resend";
+import { getResendApiKey, getResendAudienceEmail, getResendFromEmail } from "@/lib/config/env";
 
 export function isResendConfigured() {
-  return Boolean(import.meta.env.RESEND_API_KEY && import.meta.env.RESEND_AUDIENCE_EMAIL && import.meta.env.RESEND_FROM_EMAIL);
+  return Boolean(getResendApiKey() && getResendAudienceEmail() && getResendFromEmail());
 }
 
 function getClient() {
-  const apiKey = import.meta.env.RESEND_API_KEY;
+  const apiKey = getResendApiKey();
   if (!apiKey) {
     throw new Error("RESEND_API_KEY is not configured.");
   }
@@ -13,8 +14,8 @@ function getClient() {
 }
 
 export async function sendOpsNotification(subject: string, html: string) {
-  const audience = import.meta.env.RESEND_AUDIENCE_EMAIL;
-  const from = import.meta.env.RESEND_FROM_EMAIL;
+  const audience = getResendAudienceEmail();
+  const from = getResendFromEmail();
 
   if (!audience || !from) {
     return;
@@ -29,7 +30,7 @@ export async function sendOpsNotification(subject: string, html: string) {
 }
 
 export async function sendNewsletterConfirmation(email: string) {
-  const from = import.meta.env.RESEND_FROM_EMAIL;
+  const from = getResendFromEmail();
 
   if (!from) {
     return;
