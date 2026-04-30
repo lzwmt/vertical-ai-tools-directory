@@ -6,7 +6,7 @@ import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 
 const targetAdapter =
-  process.env.ASTRO_LOCAL_ADAPTER === "cloudflare"
+  process.env.ASTRO_LOCAL_ADAPTER === "cloudflare" || process.env.CI === "true"
     ? cloudflare({
         inspectorPort: false
       })

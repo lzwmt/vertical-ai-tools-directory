@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
     "build": "ASTRO_TELEMETRY_DISABLED=1 ASTRO_LOCAL_ADAPTER=node astro build",
-    "build:cloudflare": "ASTRO_TELEMETRY_DISABLED=1 ASTRO_LOCAL_ADAPTER=cloudflare astro build",
+    "build:cloudflare": "ASTRO_TELEMETRY_DISABLED=1 astro build",
     "deploy:cloudflare": "wrangler deploy",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
     "lint": "eslint .",
