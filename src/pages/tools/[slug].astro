@@ -1,0 +1,81 @@
+---
+import { getCollection, getEntry, render } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import SectionHeading from "@/components/site/SectionHeading.astro";
+import { resolveAssetPath } from "@/lib/assets";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const tools = await getCollection("tools");
+  return tools.map((tool) => ({ params: { slug: tool.data.slug } }));
+}
+
+const { slug } = Astro.params;
+const tool = await getEntry("tools", slug!);
+
+if (!tool) {
+  throw new Error(`Tool not found for slug: ${slug}`);
+}
+
+const alternatives = await Promise.all(tool.data.alternatives.map((item) => getEntry(item.collection, item.id)));
+const { Content } = await render(tool);
+---
+
+<BaseLayout title={tool.data.seo.title} description={tool.data.seo.description}>
+  <section class="container-shell py-16">
+    <div class="grid gap-10 lg:grid-cols-[1fr_0.9fr]">
+      <div class="space-y-6">
+        <p class="eyebrow">{tool.data.priceLabel}</p>
+        <h1 class="text-4xl font-black tracking-tight md:text-6xl">{tool.data.name}</h1>
+        <p class="max-w-2xl text-lg leading-8 text-[color:var(--ink-muted)]">{tool.data.tagline}</p>
+        <div class="flex flex-wrap gap-2 text-sm">
+          {tool.data.bestFor.map((item) => <span class="rounded-full bg-white/70 px-4 py-2">{item}</span>)}
+        </div>
+        <a
+          href={tool.data.affiliateUrl ?? tool.data.website}
+          data-click-track="outbound"
+          data-tool-slug={tool.data.slug}
+          data-source-page={`/tools/${tool.data.slug}`}
+          data-target-url={tool.data.affiliateUrl ?? tool.data.website}
+          rel="nofollow sponsored"
+          class="inline-flex rounded-full bg-[color:var(--accent)] px-5 py-3 font-semibold text-white"
+        >
+          访问官网
+        </a>
+      </div>
+      <img src={resolveAssetPath(tool.data.screenshot)} alt={tool.data.name} class="card-surface h-full w-full object-cover" />
+    </div>
+  </section>
+
+  <section class="container-shell grid gap-8 py-8 lg:grid-cols-[1.2fr_0.8fr]">
+    <article class="prose prose-neutral max-w-none">
+      <Content />
+    </article>
+    <aside class="space-y-6">
+      <div class="card-surface p-6">
+        <SectionHeading title="优缺点" />
+        <div class="mt-5 space-y-4">
+          <div>
+            <p class="text-sm font-semibold">优点</p>
+            <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-[color:var(--ink-muted)]">
+              {tool.data.pros.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+          <div>
+            <p class="text-sm font-semibold">缺点</p>
+            <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-[color:var(--ink-muted)]">
+              {tool.data.cons.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="card-surface p-6">
+        <SectionHeading title="替代方案" />
+        <div class="mt-4 space-y-3 text-sm">
+          {alternatives.filter(Boolean).map((item) => <a href={`/tools/${item!.data.slug}`} class="block">{item!.data.name}</a>)}
+        </div>
+      </div>
+    </aside>
+  </section>
+</BaseLayout>

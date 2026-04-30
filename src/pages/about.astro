@@ -1,0 +1,23 @@
+---
+import { getEntry, render } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const page = await getEntry("pages", "about");
+if (!page) {
+  throw new Error("About page content is missing.");
+}
+const { Content } = await render(page);
+---
+
+<BaseLayout title={page.data.seo.title} description={page.data.seo.description}>
+  <section class="container-shell py-16">
+    <p class="eyebrow">Methodology</p>
+    <h1 class="mt-4 text-4xl font-black tracking-tight md:text-6xl">{page.data.title}</h1>
+    <p class="mt-5 max-w-3xl text-lg leading-8 text-[color:var(--ink-muted)]">{page.data.description}</p>
+  </section>
+  <section class="container-shell py-8">
+    <article class="prose prose-neutral max-w-3xl">
+      <Content />
+    </article>
+  </section>
+</BaseLayout>

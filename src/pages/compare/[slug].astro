@@ -1,0 +1,70 @@
+---
+import { getCollection, getEntries, getEntry, render } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import SectionHeading from "@/components/site/SectionHeading.astro";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const pages = await getCollection("comparisons");
+  return pages.map((page) => ({ params: { slug: page.data.slug } }));
+}
+
+const { slug } = Astro.params;
+const page = await getEntry("comparisons", slug!);
+
+if (!page) {
+  throw new Error(`Comparison page not found for slug: ${slug}`);
+}
+
+const tools = await getEntries(page.data.tools);
+const { Content } = await render(page);
+---
+
+<BaseLayout title={page.data.seo.title} description={page.data.seo.description}>
+  <section class="container-shell py-16">
+    <p class="eyebrow">Comparison</p>
+    <h1 class="mt-4 text-4xl font-black tracking-tight md:text-6xl">{page.data.title}</h1>
+    <p class="mt-5 max-w-3xl text-lg leading-8 text-[color:var(--ink-muted)]">{page.data.winnerSummary}</p>
+  </section>
+
+  <section class="container-shell space-y-8 py-8">
+    <div class="overflow-hidden rounded-[2rem] border border-[color:var(--line)] bg-white/75">
+      <table class="w-full border-collapse text-left text-sm">
+        <thead>
+          <tr>
+            <th class="border-b border-[color:var(--line)] px-6 py-4">维度</th>
+            {tools.map((tool) => <th class="border-b border-[color:var(--line)] px-6 py-4">{tool?.data.name}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="border-b border-[color:var(--line)] px-6 py-4 font-semibold">价格</td>
+            {tools.map((tool) => <td class="border-b border-[color:var(--line)] px-6 py-4">{tool?.data.priceLabel}</td>)}
+          </tr>
+          <tr>
+            <td class="border-b border-[color:var(--line)] px-6 py-4 font-semibold">中文支持</td>
+            {tools.map((tool) => <td class="border-b border-[color:var(--line)] px-6 py-4">{tool?.data.supportsChinese ? "支持" : "一般"}</td>)}
+          </tr>
+          <tr>
+            <td class="px-6 py-4 font-semibold">适合人群</td>
+            {tools.map((tool) => <td class="px-6 py-4">{tool?.data.bestFor.join(" / ")}</td>)}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <article class="prose prose-neutral max-w-none">
+      <Content />
+    </article>
+    <div class="card-surface p-8">
+      <SectionHeading title="推荐摘要" summary={page.data.recommendedFor.join(" · ")} />
+      <div class="mt-6 flex flex-wrap gap-3">
+        {tools.map((tool) => (
+          <a href={`/tools/${tool?.data.slug}`} class="rounded-full bg-white/80 px-4 py-2 text-sm font-semibold">
+            查看 {tool?.data.name}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

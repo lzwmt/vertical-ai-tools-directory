@@ -1,0 +1,24 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" fill="#F3F0E8"/>
+  <rect x="64" y="64" width="1072" height="672" rx="36" fill="#FFFDF8" stroke="#191919" stroke-width="4"/>
+  <rect x="112" y="116" width="320" height="568" rx="24" fill="#111111"/>
+  <rect x="152" y="166" width="152" height="24" rx="12" fill="#F8F3E7"/>
+  <rect x="152" y="222" width="216" height="16" rx="8" fill="#514B45"/>
+  <rect x="152" y="258" width="192" height="16" rx="8" fill="#514B45"/>
+  <rect x="152" y="318" width="240" height="112" rx="22" fill="#F2E7C8"/>
+  <rect x="152" y="466" width="216" height="16" rx="8" fill="#514B45"/>
+  <rect x="152" y="502" width="176" height="16" rx="8" fill="#514B45"/>
+  <rect x="152" y="538" width="196" height="16" rx="8" fill="#514B45"/>
+  <rect x="480" y="116" width="608" height="568" rx="28" fill="#FAF7EF" stroke="#D7D0C4" stroke-width="2"/>
+  <rect x="536" y="176" width="180" height="22" rx="11" fill="#151515"/>
+  <rect x="536" y="226" width="320" height="14" rx="7" fill="#7E776D"/>
+  <rect x="536" y="256" width="448" height="14" rx="7" fill="#7E776D"/>
+  <rect x="536" y="310" width="504" height="180" rx="28" fill="#E8F2E4"/>
+  <circle cx="610" cy="400" r="40" fill="#93B18B"/>
+  <rect x="674" y="366" width="250" height="18" rx="9" fill="#35513A"/>
+  <rect x="674" y="400" width="214" height="14" rx="7" fill="#56715D"/>
+  <rect x="674" y="430" width="234" height="14" rx="7" fill="#56715D"/>
+  <rect x="536" y="534" width="156" height="52" rx="26" fill="#171717"/>
+  <text x="614" y="567" text-anchor="middle" fill="#FFF9EE" font-family="Arial, sans-serif" font-size="24" font-weight="700">Ask AI</text>
+  <text x="151" y="642" fill="#FAF4E8" font-family="Arial, sans-serif" font-size="54" font-weight="700">NOTION AI</text>
+</svg>

@@ -1,0 +1,22 @@
+---
+import { siteConfig } from "@/lib/config/site";
+---
+
+<header class="sticky top-0 z-30 border-b border-[color:var(--line)] bg-[rgba(245,239,228,0.84)] backdrop-blur-xl">
+  <div class="container-shell flex items-center justify-between gap-6 py-4">
+    <a href="/" class="text-lg font-black tracking-tight">{siteConfig.name}</a>
+    <nav class="hidden items-center gap-5 text-sm md:flex">
+      {siteConfig.navigation.map((item) => (
+        <a href={item.href} class="text-[color:var(--ink-muted)] transition hover:text-[color:var(--ink)]">
+          {item.label}
+        </a>
+      ))}
+    </nav>
+    <a
+      href="/submit"
+      class="rounded-full bg-[color:var(--accent)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[color:var(--accent-deep)]"
+    >
+      录入新工具
+    </a>
+  </div>
+</header>

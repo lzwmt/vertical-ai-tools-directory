@@ -1,0 +1,39 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const status = Astro.url.searchParams.get("status");
+const reason = Astro.url.searchParams.get("reason");
+---
+
+<BaseLayout title="提交工具" description="向站点运营者提交待收录的 AI 工具。">
+  <section class="container-shell py-16">
+    <p class="eyebrow">Submission</p>
+    <h1 class="mt-4 text-4xl font-black tracking-tight md:text-6xl">提交你的 AI 工具</h1>
+    <p class="mt-5 max-w-2xl text-lg leading-8 text-[color:var(--ink-muted)]">
+      当前阶段采用人工审核。提交成功后，站点运营者会根据收录原则进行评估。
+    </p>
+    {
+      status === "success" && (
+        <div class="mt-8 rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm text-emerald-800">
+          提交成功，运营者已收到这条工具线索。
+        </div>
+      )
+    }
+    {
+      status === "error" && (
+        <div class="mt-8 rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm text-amber-900">
+          {reason === "database" ? "当前提交服务还没有完成数据库配置，请稍后再试。" : "提交失败，请检查必填项和网址格式后重试。"}
+        </div>
+      )
+    }
+    <form method="post" action="/api/submissions" class="card-surface mt-10 grid gap-4 p-8 md:grid-cols-2">
+      <input required name="toolName" placeholder="工具名" class="rounded-2xl border border-[color:var(--line)] bg-white/70 px-4 py-3" />
+      <input required type="url" name="website" placeholder="官网链接" class="rounded-2xl border border-[color:var(--line)] bg-white/70 px-4 py-3" />
+      <input required name="category" placeholder="所属分类" class="rounded-2xl border border-[color:var(--line)] bg-white/70 px-4 py-3" />
+      <input required name="contactName" placeholder="联系人" class="rounded-2xl border border-[color:var(--line)] bg-white/70 px-4 py-3" />
+      <input required type="email" name="email" placeholder="联系邮箱" class="rounded-2xl border border-[color:var(--line)] bg-white/70 px-4 py-3" />
+      <textarea name="notes" placeholder="补充说明" class="min-h-40 rounded-2xl border border-[color:var(--line)] bg-white/70 px-4 py-3 md:col-span-2"></textarea>
+      <button class="rounded-2xl bg-[color:var(--accent)] px-4 py-3 font-semibold text-white md:col-span-2">提交审核</button>
+    </form>
+  </section>
+</BaseLayout>

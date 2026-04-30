@@ -1,0 +1,25 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" fill="#FFF2DD"/>
+  <rect x="64" y="64" width="1072" height="672" rx="36" fill="#FFF9F0" stroke="#2B1E17" stroke-width="4"/>
+  <rect x="112" y="112" width="976" height="90" rx="26" fill="#2A1D17"/>
+  <text x="170" y="166" fill="#FFF6EA" font-family="Arial, sans-serif" font-size="38" font-weight="700">Jasper Campaign Studio</text>
+  <rect x="112" y="242" width="294" height="442" rx="28" fill="#FDE2B8"/>
+  <rect x="148" y="286" width="136" height="22" rx="11" fill="#492D21"/>
+  <rect x="148" y="334" width="182" height="14" rx="7" fill="#7B5947"/>
+  <rect x="148" y="364" width="152" height="14" rx="7" fill="#7B5947"/>
+  <rect x="148" y="420" width="220" height="96" rx="20" fill="#FFF8EE"/>
+  <rect x="148" y="548" width="198" height="14" rx="7" fill="#7B5947"/>
+  <rect x="148" y="578" width="172" height="14" rx="7" fill="#7B5947"/>
+  <rect x="454" y="242" width="634" height="442" rx="28" fill="#FFFFFF"/>
+  <rect x="506" y="292" width="236" height="20" rx="10" fill="#261B15"/>
+  <rect x="506" y="336" width="454" height="14" rx="7" fill="#8B8178"/>
+  <rect x="506" y="366" width="384" height="14" rx="7" fill="#8B8178"/>
+  <rect x="506" y="424" width="530" height="146" rx="24" fill="#FFE1D0"/>
+  <rect x="548" y="468" width="164" height="34" rx="17" fill="#D05E3E"/>
+  <text x="630" y="491" text-anchor="middle" fill="#FFF9F1" font-family="Arial, sans-serif" font-size="20" font-weight="700">Brand Voice</text>
+  <rect x="742" y="468" width="244" height="18" rx="9" fill="#724335"/>
+  <rect x="742" y="502" width="214" height="14" rx="7" fill="#9A6F5F"/>
+  <rect x="742" y="532" width="194" height="14" rx="7" fill="#9A6F5F"/>
+  <rect x="506" y="604" width="176" height="46" rx="23" fill="#2A1D17"/>
+  <text x="594" y="634" text-anchor="middle" fill="#FFF6EA" font-family="Arial, sans-serif" font-size="22" font-weight="700">Generate</text>
+</svg>

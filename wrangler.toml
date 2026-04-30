@@ -1,0 +1,19 @@
+main = "@astrojs/cloudflare/entrypoints/server"
+name = "vertical-ai-tools-directory"
+compatibility_date = "2026-05-01"
+compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
+
+[assets]
+binding = "ASSETS"
+directory = "./dist"
+not_found_handling = "404-page"
+
+[observability]
+enabled = true
+
+[[r2_buckets]]
+binding = "ASSETS_BUCKET"
+bucket_name = "vertical-ai-tools-assets"
+
+[vars]
+PUBLIC_SITE_URL = "https://ai-tools.example.com"

@@ -1,0 +1,71 @@
+---
+import { getCollection, getEntry, render } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import SearchForm from "@/components/forms/SearchForm.astro";
+import SectionHeading from "@/components/site/SectionHeading.astro";
+import ToolCard from "@/components/site/ToolCard.astro";
+import { searchTools } from "@/lib/search/tools";
+import { filterSchema } from "@/lib/validation/filters";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const categories = await getCollection("categories");
+  return categories.map((category) => ({
+    params: { slug: category.data.slug }
+  }));
+}
+
+const { slug } = Astro.params;
+const category = await getEntry("categories", slug!);
+
+if (!category) {
+  throw new Error(`Category not found for slug: ${slug}`);
+}
+
+const tools = (await getCollection("tools")).filter((tool) => tool.data.category.id === category.id);
+const filters = filterSchema.parse({
+  q: Astro.url.searchParams.get("q") ?? undefined,
+  priceTier: Astro.url.searchParams.get("priceTier") ?? undefined,
+  supportsChinese: Astro.url.searchParams.get("supportsChinese") ?? undefined,
+  availableInChina: Astro.url.searchParams.get("availableInChina") ?? undefined,
+  beginnerFriendly: Astro.url.searchParams.get("beginnerFriendly") ?? undefined
+});
+const filteredTools = searchTools(tools, filters);
+const { Content } = await render(category);
+---
+
+<BaseLayout title={category.data.seo.title} description={category.data.seo.description}>
+  <section class="container-shell py-16">
+    <p class="eyebrow">{category.data.name}</p>
+    <h1 class="mt-4 text-4xl font-black tracking-tight md:text-6xl">{category.data.heroTitle}</h1>
+    <p class="mt-5 max-w-3xl text-lg leading-8 text-[color:var(--ink-muted)]">{category.data.heroSummary}</p>
+    <div class="mt-10">
+      <SearchForm action={`/categories/${category.data.slug}`} filters={filters} />
+    </div>
+  </section>
+
+  <section class="container-shell grid gap-12 py-8 lg:grid-cols-[0.7fr_1.3fr]">
+    <article class="prose prose-neutral max-w-none">
+      <Content />
+    </article>
+    <div class="space-y-6">
+      <SectionHeading title={`找到 ${filteredTools.length} 个匹配工具`} summary={category.data.shortDescription} />
+      <div class="grid gap-6">
+        {filteredTools.map((tool) => <ToolCard tool={tool} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="container-shell py-12">
+    <SectionHeading title="常见问题" />
+    <div class="mt-8 grid gap-4">
+      {category.data.faq.map((item) => (
+        <div class="card-surface p-6">
+          <h3 class="text-lg font-bold">{item.question}</h3>
+          <p class="mt-3 text-sm leading-7 text-[color:var(--ink-muted)]">{item.answer}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

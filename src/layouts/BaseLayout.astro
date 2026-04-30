@@ -1,0 +1,67 @@
+---
+import Header from "@/components/site/Header.astro";
+import Footer from "@/components/site/Footer.astro";
+import "@/styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+    <script is:inline>
+      const trackedLinkSelector = 'a[data-click-track="outbound"]';
+      const clickEndpoint = "/api/click";
+
+      document.addEventListener(
+        "click",
+        (event) => {
+          const target = event.target;
+          if (!(target instanceof Element)) return;
+
+          const link = target.closest(trackedLinkSelector);
+          if (!(link instanceof HTMLAnchorElement)) return;
+
+          const payload = {
+            toolSlug: link.dataset.toolSlug,
+            targetUrl: link.dataset.targetUrl || link.href,
+            sourcePage: link.dataset.sourcePage || window.location.pathname
+          };
+
+          const body = JSON.stringify(payload);
+
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon(clickEndpoint, new Blob([body], { type: "application/json" }));
+            return;
+          }
+
+          fetch(clickEndpoint, {
+            method: "POST",
+            headers: {
+              "content-type": "application/json"
+            },
+            body,
+            keepalive: true
+          }).catch(() => {});
+        },
+        { capture: true }
+      );
+    </script>
+  </body>
+</html>

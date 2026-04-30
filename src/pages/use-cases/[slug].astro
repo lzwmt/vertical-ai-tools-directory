@@ -1,0 +1,41 @@
+---
+import { getCollection, getEntries, getEntry, render } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import SectionHeading from "@/components/site/SectionHeading.astro";
+import ToolCard from "@/components/site/ToolCard.astro";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const pages = await getCollection("use-cases");
+  return pages.map((page) => ({ params: { slug: page.data.slug } }));
+}
+
+const { slug } = Astro.params;
+const page = await getEntry("use-cases", slug!);
+
+if (!page) {
+  throw new Error(`Use case page not found for slug: ${slug}`);
+}
+
+const tools = await getEntries(page.data.featuredTools);
+const { Content } = await render(page);
+---
+
+<BaseLayout title={page.data.seo.title} description={page.data.seo.description}>
+  <section class="container-shell py-16">
+    <p class="eyebrow">Use Case</p>
+    <h1 class="mt-4 text-4xl font-black tracking-tight md:text-6xl">{page.data.title}</h1>
+    <p class="mt-5 max-w-3xl text-lg leading-8 text-[color:var(--ink-muted)]">{page.data.rankingMethod}</p>
+  </section>
+
+  <section class="container-shell grid gap-10 py-8 lg:grid-cols-[0.85fr_1.15fr]">
+    <article class="prose prose-neutral max-w-none">
+      <Content />
+    </article>
+    <div class="grid gap-6">
+      <SectionHeading title="精选推荐" />
+      {tools.map((tool) => <ToolCard tool={tool} />)}
+    </div>
+  </section>
+</BaseLayout>
