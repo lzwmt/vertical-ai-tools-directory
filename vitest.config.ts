@@ -4,7 +4,8 @@ import { fileURLToPath } from "node:url";
 export default defineConfig({
   resolve: {
     alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url))
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+      "astro:env/server": fileURLToPath(new URL("./tests/mocks/astro-env-server.ts", import.meta.url))
     }
   },
   test: {

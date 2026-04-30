@@ -1,5 +1,7 @@
-function readRuntimeEnv(key: keyof ImportMetaEnv) {
-  const runtimeValue = process.env[key];
+import { getSecret } from "astro:env/server";
+
+function readRuntimeEnv(key: Extract<keyof ImportMetaEnv, string>) {
+  const runtimeValue = getSecret(key);
 
   if (typeof runtimeValue === "string" && runtimeValue.length > 0) {
     return runtimeValue;
