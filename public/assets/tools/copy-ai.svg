@@ -1,0 +1,12 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" rx="48" fill="#FFF1E9"/>
+  <rect x="68" y="68" width="1064" height="584" rx="40" fill="#FFF9F5" stroke="#FFD9C4" stroke-width="4"/>
+  <circle cx="184" cy="172" r="58" fill="#FF7A45"/>
+  <path d="M170 154H198V190H170V154Z" fill="#FFF1E9"/>
+  <text x="280" y="190" fill="#8B3B18" font-family="Arial, sans-serif" font-size="72" font-weight="700">Copy.ai</text>
+  <text x="118" y="324" fill="#A3522D" font-family="Arial, sans-serif" font-size="34">Built for fast campaign copy, outreach, and short-form team workflows.</text>
+  <rect x="118" y="396" width="270" height="88" rx="24" fill="#FF7A45"/>
+  <text x="180" y="452" fill="white" font-family="Arial, sans-serif" font-size="34" font-weight="700">Campaigns</text>
+  <rect x="414" y="396" width="270" height="88" rx="24" fill="#FFE3D4"/>
+  <text x="483" y="452" fill="#8B3B18" font-family="Arial, sans-serif" font-size="34" font-weight="700">Short copy</text>
+</svg>

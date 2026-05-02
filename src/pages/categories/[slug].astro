@@ -2,19 +2,11 @@
 import { getCollection, getEntry, render } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import SearchForm from "@/components/forms/SearchForm.astro";
-import SectionHeading from "@/components/site/SectionHeading.astro";
 import ToolCard from "@/components/site/ToolCard.astro";
 import { searchTools } from "@/lib/search/tools";
 import { filterSchema } from "@/lib/validation/filters";
 
-export const prerender = true;
-
-export async function getStaticPaths() {
-  const categories = await getCollection("categories");
-  return categories.map((category) => ({
-    params: { slug: category.data.slug }
-  }));
-}
+export const prerender = false;
 
 const { slug } = Astro.params;
 const category = await getEntry("categories", slug!);
@@ -23,7 +15,11 @@ if (!category) {
   throw new Error(`Category not found for slug: ${slug}`);
 }
 
-const tools = (await getCollection("tools")).filter((tool) => tool.data.category.id === category.id);
+const childCategories = (
+  await Promise.all(category.data.childCategorySlugs.map((childSlug) => getEntry("categories", childSlug)))
+).filter((childCategory): childCategory is NonNullable<typeof childCategory> => Boolean(childCategory));
+const categoryIds = new Set([category.id, ...childCategories.map((childCategory) => childCategory.id)]);
+const tools = (await getCollection("tools")).filter((tool) => categoryIds.has(tool.data.category.id));
 const filters = filterSchema.parse({
   q: Astro.url.searchParams.get("q") ?? undefined,
   priceTier: Astro.url.searchParams.get("priceTier") ?? undefined,
@@ -36,35 +32,72 @@ const { Content } = await render(category);
 ---
 
 <BaseLayout title={category.data.seo.title} description={category.data.seo.description}>
-  <section class="container-shell py-16">
-    <p class="eyebrow">{category.data.name}</p>
-    <h1 class="mt-4 text-4xl font-black tracking-tight md:text-6xl">{category.data.heroTitle}</h1>
-    <p class="mt-5 max-w-3xl text-lg leading-8 text-[color:var(--ink-muted)]">{category.data.heroSummary}</p>
-    <div class="mt-10">
-      <SearchForm action={`/categories/${category.data.slug}`} filters={filters} />
+  <section class="container-shell page-section pt-10 md:pt-16">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,1.06fr)_minmax(360px,0.78fr)]">
+      <div class="space-y-7">
+        <p class="eyebrow">{category.data.name}</p>
+        <h1 class="editorial-display max-w-4xl">{category.data.heroTitle}</h1>
+        <p class="max-w-3xl text-[1.05rem] leading-8 text-[color:var(--ink-muted)]">{category.data.heroSummary}</p>
+      </div>
+      <aside class="card-surface p-8">
+        <p class="eyebrow mb-4">Filter Tools</p>
+        <h2 class="editorial-heading">按条件收窄范围</h2>
+        <p class="mt-4 text-sm leading-7 text-[color:var(--ink-muted)]">{category.data.shortDescription}</p>
+        <div class="mt-6">
+          <SearchForm action={`/categories/${category.data.slug}`} filters={filters} />
+        </div>
+      </aside>
     </div>
   </section>
 
-  <section class="container-shell grid gap-12 py-8 lg:grid-cols-[0.7fr_1.3fr]">
-    <article class="prose prose-neutral max-w-none">
-      <Content />
-    </article>
-    <div class="space-y-6">
-      <SectionHeading title={`找到 ${filteredTools.length} 个匹配工具`} summary={category.data.shortDescription} />
-      <div class="grid gap-6">
-        {filteredTools.map((tool) => <ToolCard tool={tool} />)}
+  <section class="container-shell page-section pt-0">
+    <div class="grid gap-12 lg:grid-cols-[minmax(0,0.68fr)_minmax(0,1.32fr)]">
+      <article class="max-w-3xl space-y-8 border-t border-[color:var(--line)] pt-8 [&_h2]:mt-10 [&_h2]:font-['Noto_Serif_SC'] [&_h2]:text-3xl [&_h2]:font-semibold [&_h2]:text-[color:var(--ink)] [&_h2]:tracking-[-0.02em] [&_p]:text-lg [&_p]:leading-9 [&_p]:text-[color:var(--ink)] [&_p+_p]:mt-5">
+        <Content />
+
+        {childCategories.length > 0 && (
+          <div class="space-y-5 border-t border-[color:var(--line)] pt-8">
+            <div>
+              <p class="eyebrow mb-3">Browse by Layer</p>
+              <h2 class="editorial-title">按工具层级进入</h2>
+            </div>
+            <div class="grid gap-4 md:grid-cols-3">
+              {childCategories.map((childCategory) => (
+                <a href={`/categories/${childCategory.data.slug}`} class="editorial-card block p-5 transition hover:border-[color:var(--accent)]">
+                  <p class="eyebrow mb-3">{childCategory.data.name}</p>
+                  <h3 class="font-['Noto_Serif_SC'] text-xl font-semibold text-[color:var(--ink)]">{childCategory.data.heroTitle}</h3>
+                  <p class="mt-3 text-sm leading-7 text-[color:var(--ink-muted)]">{childCategory.data.shortDescription}</p>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+      </article>
+
+      <div class="space-y-8">
+        <div class="border-b border-[color:var(--line)] pb-5">
+          <p class="eyebrow mb-3">Results</p>
+          <h2 class="editorial-title">找到 {filteredTools.length} 个匹配工具</h2>
+          <p class="mt-3 max-w-2xl text-base leading-8 text-[color:var(--ink-muted)]">{category.data.shortDescription}</p>
+        </div>
+        <div class="grid gap-6">
+          {filteredTools.map((tool) => <ToolCard tool={tool} />)}
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="container-shell py-12">
-    <SectionHeading title="常见问题" />
+  <section class="container-shell page-section pt-0">
+    <div class="border-b border-[color:var(--line)] pb-5">
+      <p class="eyebrow mb-3">FAQ</p>
+      <h2 class="editorial-title">常见问题</h2>
+    </div>
     <div class="mt-8 grid gap-4">
       {category.data.faq.map((item) => (
-        <div class="card-surface p-6">
-          <h3 class="text-lg font-bold">{item.question}</h3>
-          <p class="mt-3 text-sm leading-7 text-[color:var(--ink-muted)]">{item.answer}</p>
-        </div>
+        <article class="editorial-card p-6 md:p-8">
+          <h3 class="font-['Noto_Serif_SC'] text-2xl font-semibold text-[color:var(--ink)]">{item.question}</h3>
+          <p class="mt-4 text-sm leading-8 text-[color:var(--ink-muted)]">{item.answer}</p>
+        </article>
       ))}
     </div>
   </section>

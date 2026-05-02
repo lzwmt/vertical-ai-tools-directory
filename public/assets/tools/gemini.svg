@@ -1,0 +1,12 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" rx="48" fill="#EEF1FF"/>
+  <rect x="68" y="68" width="1064" height="584" rx="40" fill="#FAFBFF" stroke="#D3DBFF" stroke-width="4"/>
+  <circle cx="184" cy="172" r="58" fill="#5B6CFF"/>
+  <path d="M184 132L195 161L224 172L195 183L184 212L173 183L144 172L173 161L184 132Z" fill="#EEF1FF"/>
+  <text x="280" y="190" fill="#24317B" font-family="Arial, sans-serif" font-size="72" font-weight="700">Gemini</text>
+  <text x="118" y="324" fill="#4453A6" font-family="Arial, sans-serif" font-size="34">Useful when Google Docs, Drive, and lightweight research stay in one loop.</text>
+  <rect x="118" y="396" width="270" height="88" rx="24" fill="#5B6CFF"/>
+  <text x="173" y="452" fill="white" font-family="Arial, sans-serif" font-size="34" font-weight="700">Google stack</text>
+  <rect x="414" y="396" width="260" height="88" rx="24" fill="#DCE3FF"/>
+  <text x="490" y="452" fill="#24317B" font-family="Arial, sans-serif" font-size="34" font-weight="700">Research</text>
+</svg>

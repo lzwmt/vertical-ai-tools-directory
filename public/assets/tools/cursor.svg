@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Cursor</title>
+  <desc id="desc">Placeholder logo for Cursor</desc>
+  <rect width="128" height="128" rx="28" fill="#111827"/>
+  <path d="M36 34h56v12H58L92 82v12H36V82h34L36 46V34z" fill="#f9fafb"/>
+</svg>

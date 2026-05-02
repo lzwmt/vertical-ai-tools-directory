@@ -1,0 +1,66 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  tool: CollectionEntry<"tools">;
+}
+
+const { tool } = Astro.props;
+const targetUrl = tool.data.affiliateUrl ?? tool.data.website;
+---
+
+<article class="card-surface overflow-hidden">
+  <div class="relative border-b border-[color:var(--line)] bg-[linear-gradient(180deg,rgba(241,237,236,0.94),rgba(253,248,247,0.96))] px-6 pt-4 pb-4">
+    <span class="absolute top-4 right-6 bg-[rgba(138,90,54,0.1)] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[color:var(--accent)]">
+      {tool.data.priceLabel}
+    </span>
+    <div class="flex flex-wrap items-center gap-3 pr-28">
+      <p class="text-xs uppercase tracking-[0.18em] text-[color:var(--ink-soft)]">{tool.data.name}</p>
+      <span class="border border-[color:var(--line)] px-3 py-1 text-[11px] tracking-[0.12em] text-[color:var(--ink-soft)]">
+        {tool.data.availableInChina ? "中国区较易落地" : "需评估可达性"}
+      </span>
+    </div>
+    <p class="mt-3 text-sm leading-7 text-[color:var(--ink-muted)]">{tool.data.verdict}</p>
+  </div>
+
+  <div class="space-y-6 p-6">
+    <div>
+      <p class="eyebrow mb-2">{tool.data.tags[0] ?? "Editor Pick"}</p>
+      <h3 class="editorial-heading">
+        <a href={`/tools/${tool.data.slug}`}>{tool.data.name}</a>
+      </h3>
+      <p class="mt-2 text-sm leading-7 text-[color:var(--ink-muted)]">{tool.data.tagline}</p>
+    </div>
+
+    <div class="grid gap-5 md:grid-cols-2">
+      <div>
+        <p class="text-xs uppercase tracking-[0.18em] text-[color:var(--accent)]">适合谁</p>
+        <ul class="mt-3 space-y-2 text-sm leading-7 text-[color:var(--ink-muted)]">
+          {tool.data.bestFor.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+      <div>
+        <p class="text-xs uppercase tracking-[0.18em] text-[color:var(--accent)]">不适合谁</p>
+        <ul class="mt-3 space-y-2 text-sm leading-7 text-[color:var(--ink-muted)]">
+          {tool.data.notFor.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-3 border-t border-[color:var(--line)] pt-5">
+      <a href={`/tools/${tool.data.slug}`} class="editorial-button editorial-button-secondary">
+        查看评测
+      </a>
+      <a
+        href={targetUrl}
+        data-click-track="outbound"
+        data-tool-slug={tool.data.slug}
+        data-target-url={targetUrl}
+        rel="nofollow sponsored"
+        class="editorial-button editorial-button-primary"
+      >
+        访问官网
+      </a>
+    </div>
+  </div>
+</article>

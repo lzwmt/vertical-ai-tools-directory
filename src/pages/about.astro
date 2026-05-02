@@ -1,22 +1,40 @@
 ---
 import { getEntry, render } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { buildMeta } from "@/lib/seo";
 
 const page = await getEntry("pages", "about");
 if (!page) {
   throw new Error("About page content is missing.");
 }
 const { Content } = await render(page);
+const meta = buildMeta({
+  title: page.data.seo.title,
+  description: page.data.seo.description,
+  pathname: "/about"
+});
 ---
 
-<BaseLayout title={page.data.seo.title} description={page.data.seo.description}>
-  <section class="container-shell py-16">
-    <p class="eyebrow">Methodology</p>
-    <h1 class="mt-4 text-4xl font-black tracking-tight md:text-6xl">{page.data.title}</h1>
-    <p class="mt-5 max-w-3xl text-lg leading-8 text-[color:var(--ink-muted)]">{page.data.description}</p>
+<BaseLayout title={meta.title} description={meta.description} canonical={meta.canonical} openGraph={meta.openGraph}>
+  <section class="container-shell page-section pt-10 md:pt-16">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,1.08fr)_minmax(340px,0.7fr)]">
+      <div class="space-y-7">
+        <p class="eyebrow">About This Project</p>
+        <h1 class="editorial-display max-w-4xl">{page.data.title}</h1>
+        <p class="max-w-3xl text-[1.05rem] leading-8 text-[color:var(--ink-muted)]">{page.data.description}</p>
+      </div>
+      <aside class="card-surface p-8">
+        <p class="eyebrow mb-4">Positioning</p>
+        <h2 class="editorial-heading">我们在做什么</h2>
+        <p class="mt-5 text-base leading-8 text-[color:var(--ink-muted)]">
+          这个站点优先解决“判断效率”而不是“工具覆盖率”。先按团队和任务缩小范围，再用单工具评测帮助团队做进入工作流的决定。
+        </p>
+      </aside>
+    </div>
   </section>
-  <section class="container-shell py-8">
-    <article class="prose prose-neutral max-w-3xl">
+
+  <section class="container-shell page-section pt-0">
+    <article class="max-w-4xl space-y-8 border-t border-[color:var(--line)] pt-8 [&_h2]:mt-10 [&_h2]:font-['Noto_Serif_SC'] [&_h2]:text-3xl [&_h2]:font-semibold [&_h2]:text-[color:var(--ink)] [&_h2]:tracking-[-0.02em] [&_li]:text-base [&_li]:leading-8 [&_li]:text-[color:var(--ink-muted)] [&_p]:text-lg [&_p]:leading-9 [&_p]:text-[color:var(--ink)] [&_p+_p]:mt-5 [&_ul]:mt-4 [&_ul]:space-y-2">
       <Content />
     </article>
   </section>

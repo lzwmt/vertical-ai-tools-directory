@@ -1,128 +1,185 @@
 # Tasks: 垂直 AI 工具导航 MVP
 
-- [x] Task: 初始化 Astro 项目骨架与 Cloudflare 适配
+## 说明
+这份任务清单基于原始 MVP 任务重新整理，状态分为：
+- `[x]` 已完成：文档、规格、内容策略、竞品拆解等已经落库
+- `[ ]` 待实现：真正还需要开发或录入的工作
+- `后置`：保留在大 MVP 中，但不建议作为当前第一阶段优先实现
+
+当前项目实际进度已经完成了大量“规格与运营准备”，所以这份清单不再把它们当成未开始任务。
+
+## 已完成：规格与策略层
+
+- [x] Task: 明确 MVP 规格与技术路线
+  - Acceptance: 完成产品目标、技术栈、边界、成功标准定义
+  - Verify: 规格文档已存在并可审阅
+  - Files: `docs/specs/vertical-ai-tools-directory-mvp-spec.md`
+
+- [x] Task: 完成 MVP 实施计划
+  - Acceptance: 已定义架构、实施顺序、依赖关系、风险与验证节点
+  - Verify: 计划文档已存在并可审阅
+  - Files: `docs/specs/vertical-ai-tools-directory-mvp-plan.md`
+
+- [x] Task: 完成原始大 MVP 任务拆分
+  - Acceptance: 已有完整任务树可作为总蓝图
+  - Verify: 本文档已更新
+  - Files: `docs/specs/vertical-ai-tools-directory-mvp-tasks.md`
+
+- [x] Task: 收敛首发版本为 Best-of 与单工具评测优先
+  - Acceptance: 已形成收敛版 PRD 和专项任务清单
+  - Verify: 文档已存在并可审阅
+  - Files: `docs/prd/best-of-and-tool-review-prd.md`, `docs/specs/best-of-and-tool-review-tasks.md`
+
+- [x] Task: 完成内容采集 SOP 与工具录入模板
+  - Acceptance: 已定义采集流程、发布标准和 MDX 录入模板
+  - Verify: 文档已存在并可审阅
+  - Files: `docs/content/content-collection-sop.md`, `docs/content/tool-entry-template.md`
+
+- [x] Task: 完成首发内容架构
+  - Acceptance: 已定义首批分类、Best-of 主题、对比页方向和工具池
+  - Verify: 文档已存在并可审阅
+  - Files: `docs/content/launch-content-architecture.md`
+
+- [x] Task: 完成运营与 AI 辅助流程设计
+  - Acceptance: 已定义运营 SOP、前 90 天计划、AI 工作流、Prompt 模板和自动化边界
+  - Verify: 文档已存在并可审阅
+  - Files: `docs/operations/operations-sop.md`, `docs/operations/first-90-days-growth-plan.md`, `docs/operations/ai-operations-workflow.md`, `docs/operations/content-prompts.md`, `docs/operations/automation-boundaries.md`
+
+- [x] Task: 完成 Tool Finder 竞品拆解与映射
+  - Acceptance: 已明确可借鉴的页面体系与不应照搬的部分
+  - Verify: 文档已存在并可审阅
+  - Files: `docs/competitive/tool-finder-mapping-for-ai-directory.md`
+
+## 待实现：第一阶段开发
+
+### Phase 1: 项目骨架
+
+- [ ] Task: 初始化 Astro 项目骨架与 Cloudflare 适配
   - Acceptance: 仓库具备 Astro + TypeScript + Tailwind + Cloudflare 基础配置，能本地启动并成功构建
-  - Verify: `pnpm install`、`pnpm dev`、`pnpm build`
+  - Verify: `pnpm install`, `pnpm dev`, `pnpm build`
   - Files: `package.json`, `astro.config.*`, `tsconfig.json`, `wrangler.toml`, `src/*`
 
-- [x] Task: 建立项目目录结构与基础开发命令
+- [ ] Task: 建立项目目录结构与基础开发命令
   - Acceptance: `src/content`、`src/components`、`src/lib`、`tests`、`e2e`、`docs` 结构清晰；lint、format、typecheck、test 命令可调用
   - Verify: `pnpm lint`, `pnpm typecheck`, `pnpm test`
   - Files: `package.json`, `src/`, `tests/`, `e2e/`
 
-- [x] Task: 建立全站 layout、导航和设计基础
+- [ ] Task: 建立全站 layout、导航和设计基础
   - Acceptance: 具备统一页面布局、基础导航、页脚、响应式容器和全局样式 token
   - Verify: 手动检查首页与任意内容页在桌面和移动宽度下正常显示
   - Files: `src/layouts/*`, `src/components/site/*`, `src/styles/*`
 
-- [x] Task: 定义 Astro content collections schema
+### Phase 2: 内容系统
+
+- [ ] Task: 定义 Astro content collections schema
   - Acceptance: 为 `tools`、`categories`、`comparisons`、`use-cases`、`pages` 建立 schema，并支持 frontmatter 校验
   - Verify: `pnpm typecheck`
   - Files: `src/content.config.*`, `src/content/*`
 
-- [x] Task: 建立 MDX 内容模板与首批样例内容
+- [ ] Task: 建立 MDX 内容模板与首批样例内容
   - Acceptance: 至少有 2 个工具、1 个分类、1 个对比页、1 个场景页、1 个 about/methodology 页示例
   - Verify: `pnpm dev` 下可访问对应页面
   - Files: `src/content/tools/*`, `src/content/categories/*`, `src/content/comparisons/*`, `src/content/use-cases/*`, `src/content/pages/*`
 
-- [x] Task: 建立数据库连接层和 Drizzle 配置
+### Phase 3: 数据层与基础服务
+
+- [ ] Task: 建立数据库连接层和 Drizzle 配置
   - Acceptance: Neon 连接、Drizzle 配置、环境变量读取与基础 DB client 可用
   - Verify: `pnpm db:generate`
   - Files: `drizzle.config.ts`, `src/lib/db/*`, `.env.example`
 
-- [x] Task: 定义 MVP 数据库 schema
+- [ ] Task: 定义 MVP 数据库 schema
   - Acceptance: 至少包含 `submissions`、`newsletter_subscribers`、`outbound_click_events` 三张表和必要索引
   - Verify: `pnpm db:generate`, `pnpm db:migrate`
   - Files: `src/lib/db/schema.ts`, `drizzle/*`
-  - Progress: schema、索引和 migration 文件已生成；`pnpm db:migrate` 仍需在真实 `DATABASE_URL` 环境下执行一次
 
-- [x] Task: 建立站点配置和 SEO 工具模块
+- [ ] Task: 建立站点配置和 SEO 工具模块
   - Acceptance: 具备站点 metadata、canonical、Open Graph、robots、sitemap 所需的基础工具函数
   - Verify: `pnpm build`，检查生成结果
   - Files: `src/lib/config/*`, `src/lib/seo/*`, `src/pages/robots.txt.ts`, `src/pages/sitemap*.ts`
 
-- [x] Task: 实现首页
-  - Acceptance: 首页包含 Hero、搜索入口、精选分类、编辑精选、最新对比、场景入口和订阅 CTA
+### Phase 4: 当前最优先页面
+
+- [ ] Task: 实现首页
+  - Acceptance: 首页包含 Hero、场景入口、精选工具、最近评测和方法论入口
   - Verify: 手动检查页面结构与导航跳转
   - Files: `src/pages/index.astro`, `src/components/site/*`
 
-- [x] Task: 实现分类页
-  - Acceptance: 分类页支持分类说明、工具列表、推荐模块、相关对比链接和 FAQ 区块
-  - Verify: 访问至少一个分类页并检查渲染内容
-  - Files: `src/pages/categories/[slug].astro`, `src/components/site/*`
-
-- [x] Task: 实现工具详情页
-  - Acceptance: 工具详情页展示完整工具信息、优缺点、适用人群、替代方案、截图和 CTA
+- [ ] Task: 实现单工具评测页
+  - Acceptance: 工具详情页展示完整工具信息、优缺点、适合人群、替代方案、截图和 CTA
   - Verify: 访问至少一个工具详情页并检查字段完整性
   - Files: `src/pages/tools/[slug].astro`, `src/components/site/*`
 
-- [x] Task: 实现对比页
-  - Acceptance: 对比页具备并排对比表、推荐摘要、价格对比和 CTA 区块
-  - Verify: 访问至少一个对比页
-  - Files: `src/pages/compare/[slug].astro`, `src/components/site/*`
-
-- [x] Task: 实现场景 / Best-of 页
-  - Acceptance: 场景页包含导语、排序逻辑说明、精选推荐和内部链接
+- [ ] Task: 实现 Best-of 场景页
+  - Acceptance: 场景页包含导语、推荐标准、推荐工具列表、分人群建议和内部链接
   - Verify: 访问至少一个场景页
-  - Files: `src/pages/use-cases/[slug].astro`, `src/pages/best/[slug].astro`, `src/components/site/*`
+  - Files: `src/pages/best/[slug].astro` 或 `src/pages/use-cases/[slug].astro`, `src/components/site/*`
 
-- [x] Task: 实现 About / Methodology 页面
+- [ ] Task: 实现 About / Methodology 页面
   - Acceptance: 页面明确说明评估框架、收录原则和赞助披露方式
   - Verify: 手动检查页面内容完整性
   - Files: `src/pages/about.astro` 或 `src/pages/about/[slug].astro`, `src/content/pages/*`
 
-- [x] Task: 实现基础搜索能力
-  - Acceptance: 用户可按工具名搜索，并返回匹配结果；不引入外部搜索服务
-  - Verify: 手动输入示例工具名并确认结果
-  - Files: `src/lib/search/*`, `src/components/forms/*`, `src/pages/*`
+### Phase 5: 首批内容录入
 
-- [x] Task: 实现分类筛选能力
-  - Acceptance: 支持按价格、中文支持、中国区可访问性、适合新手等维度筛选
-  - Verify: 手动切换筛选条件并观察结果变化
-  - Files: `src/lib/validation/*`, `src/lib/search/*`, `src/components/forms/*`, `src/pages/categories/[slug].astro`
+- [ ] Task: 录入首批单工具评测内容
+  - Acceptance: 至少完成 8 个工具评测页
+  - Verify: 本地可访问 8 个工具页
+  - Files: `src/content/tools/*`
 
-- [x] Task: 实现工具提交表单和入库逻辑
-  - Acceptance: 表单具备校验、可成功写入数据库，并返回清晰成功 / 失败反馈
-  - Verify: 提交一次表单并检查数据库记录
-  - Files: `src/pages/submit.astro`, `src/pages/api/submissions.ts`, `src/lib/db/*`, `src/lib/validation/*`
-  - Progress: 页面、API、共享校验和成功/失败反馈已完成，并已于 `2026-05-01` 通过真实 Neon 数据库写入验证
+- [ ] Task: 录入首批 Best-of 内容
+  - Acceptance: 至少完成 4 到 5 个 Best-of 页面
+  - Verify: 本地可访问 4 到 5 个场景页
+  - Files: `src/content/best/*` 或 `src/content/use-cases/*`
 
-- [x] Task: 实现邮件订阅表单与 Resend 发送链路
-  - Acceptance: 订阅信息可写入数据库，并通过 Resend 发送订阅确认或内部通知
-  - Verify: 提交订阅表单并确认数据库记录与邮件发送
-  - Files: `src/components/forms/*`, `src/pages/api/newsletter.ts`, `src/lib/mail/*`, `src/lib/db/*`
-  - Progress: 订阅表单、入库逻辑、内部通知、订阅确认邮件封装和页面反馈已完成，并已于 `2026-05-01` 通过真实 `DATABASE_URL` + `RESEND_*` 验证
+- [ ] Task: 建立首页推荐与站内内链
+  - Acceptance: 首页展示重点 Best-of 与重点工具页；Best-of 与工具页之间互相回链
+  - Verify: 手动点击检查链接可达
+  - Files: `src/pages/index.astro`, `src/pages/tools/[slug].astro`, `src/pages/best/[slug].astro` 或 `src/pages/use-cases/[slug].astro`
 
-- [x] Task: 实现 outbound click 事件记录
-  - Acceptance: 工具 CTA 点击会记录工具维度事件，且不阻塞用户跳转
-  - Verify: 点击 CTA 后检查数据库事件记录
-  - Files: `src/pages/api/click.ts`, `src/lib/analytics/*`, `src/components/site/*`
-  - Progress: CTA 埋点、`sendBeacon`/`keepalive fetch` 上报和 API 已完成，并已于 `2026-05-01` 通过真实数据库事件写入验证
+### Phase 6: 基础转化与质量
 
-- [x] Task: 建立 R2 资源使用约定
-  - Acceptance: 工具截图与静态内容资源有明确存放策略和访问路径约定，且不强依赖 R2
-  - Verify: 通过配置或示例内容确认资源可访问
-  - Files: `src/lib/assets/*`, `docs/*`, `.env.example`
-  - Progress: 已明确默认使用仓库 `public/` 静态资源，`R2_PUBLIC_BASE_URL` 和 `ASSETS_BUCKET` 均为可选扩展
+- [ ] Task: 实现基础 CTA 外链模块
+  - Acceptance: 工具页和 Best-of 推荐卡片都具备官网 CTA，且跳转行为正常
+  - Verify: 手动点击外链
+  - Files: `src/components/site/*`, `src/pages/tools/[slug].astro`, `src/pages/best/[slug].astro` 或 `src/pages/use-cases/[slug].astro`
 
-- [x] Task: 补充单元测试和集成测试
-  - Acceptance: schema 校验、筛选逻辑、SEO helper、表单校验至少具备基础测试
+- [ ] Task: 增加内容 schema 与辅助函数测试
+  - Acceptance: 工具 frontmatter、Best-of frontmatter、SEO helper 至少有基础测试
   - Verify: `pnpm test:unit`
-  - Files: `tests/unit/*`, `tests/integration/*`
-  - Progress: 单元测试已覆盖 schema 校验、筛选逻辑、SEO helper 和表单校验；集成测试已覆盖 `submissions`、`newsletter`、`click` API 的关键成功/失败分支
+  - Files: `tests/unit/*`
 
-- [x] Task: 补充端到端测试
-  - Acceptance: 覆盖首页导航、分类筛选、工具详情 CTA、提交表单、邮件订阅
-  - Verify: `pnpm test:e2e`
-  - Files: `e2e/*`
+- [ ] Task: 增加关键页面渲染测试与基础 E2E
+  - Acceptance: 覆盖首页、1 个工具页、1 个 Best-of 页，以及首页 -> Best-of -> 工具页的核心路径
+  - Verify: `pnpm test`, `pnpm test:e2e`
+  - Files: `tests/integration/*`, `e2e/*`
 
-- [x] Task: 完成 Cloudflare 部署配置与环境变量文档
-  - Acceptance: 预览和生产部署所需变量、绑定和步骤文档化，部署配置可用
-  - Verify: `pnpm build`，手动检查部署配置
-  - Files: `wrangler.toml`, `.env.example`, `README.md` 或 `docs/launch/*`
+- [ ] Task: 完成上线前内容与页面检查
+  - Acceptance: 页面无死链、移动端可读、SEO metadata 正常输出
+  - Verify: 手动检查 + `pnpm build`
+  - Files: `src/pages/*`, `src/content/*`
 
-- [ ] Task: 完成成本守门与上线检查
-  - Acceptance: 核心服务均在免费额度约束内，且无隐藏固定成本
-  - Verify: 手动审查 `Cloudflare Pages`, `Workers`, `Neon`, `R2`, `Resend`, `UptimeRobot` 配置
-  - Files: `docs/launch/*`, `docs/specs/*`
-  - Progress: 已补充上线检查清单、`/api/health` 监控落点、官方价格页成本守门文档和 UptimeRobot 免费版非商业限制说明；仍需在真实账号控制台完成一次上线前人工复核
+## 后置：第二阶段恢复的大 MVP 能力
+
+后置功能仍保留在完整路线中，但不建议压到当前第一阶段一起做：
+
+- 后置: 分类页与筛选系统
+- 后置: 对比页
+- 后置: 替代品独立页
+- 后置: 搜索
+- 后置: 工具提交表单
+- 后置: 邮件订阅
+- 后置: outbound click 事件记录
+- 后置: 极简内部管理入口
+- 后置: R2 资源迁移与更大规模截图存储
+
+## 当前推荐执行顺序
+
+1. 项目骨架
+2. content collections
+3. 单工具评测页模板
+4. Best-of 页模板
+5. 首页与方法论页
+6. 首批内容录入
+7. SEO、CTA、测试
+8. 再决定是否恢复分类页 / 对比页 / 提交页

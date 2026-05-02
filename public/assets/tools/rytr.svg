@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Rytr</title>
+  <desc id="desc">Placeholder logo for Rytr</desc>
+  <rect width="128" height="128" rx="28" fill="#0f766e"/>
+  <path d="M34 94V34h28c16 0 26 8 26 22 0 10-5 16-14 19l17 19H75L60 77h-10v17H34zm16-30h11c8 0 12-3 12-9s-4-9-12-9H50v18z" fill="#ecfeff"/>
+</svg>

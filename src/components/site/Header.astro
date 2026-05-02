@@ -1,22 +1,87 @@
 ---
 import { siteConfig } from "@/lib/config/site";
+
+const pathname = Astro.url.pathname;
+const baseNavClass = "site-nav-link border-b pb-1 transition-colors duration-200 hover:text-[color:var(--accent)]";
+const isActive = (href: string) => {
+  if (href === "/") return pathname === "/";
+  if (href === "/#paths") return pathname.startsWith("/best") || pathname.startsWith("/categories");
+  if (href === "/#reviews") return pathname.startsWith("/tools") || pathname.startsWith("/compare");
+  if (href === "/about") return pathname === "/about";
+  if (href === "/submit") return pathname === "/submit";
+  return pathname === href;
+};
 ---
 
-<header class="sticky top-0 z-30 border-b border-[color:var(--line)] bg-[rgba(245,239,228,0.84)] backdrop-blur-xl">
-  <div class="container-shell flex items-center justify-between gap-6 py-4">
-    <a href="/" class="text-lg font-black tracking-tight">{siteConfig.name}</a>
-    <nav class="hidden items-center gap-5 text-sm md:flex">
+<header class="sticky top-0 z-40 border-b border-[color:var(--line)] bg-[rgba(253,248,247,0.92)] backdrop-blur-xl">
+  <div class="container-shell">
+    <div class="flex items-center justify-between gap-6 py-5">
+      <a href="/" class="font-['Noto_Serif_SC'] text-xl font-semibold tracking-tight md:text-2xl">{siteConfig.name}</a>
+      <nav class="hidden items-center gap-8 text-sm text-[color:var(--ink-muted)] md:flex">
+        {siteConfig.navigation.map((item) => (
+          <a
+            href={item.href}
+            data-nav-href={item.href}
+            class:list={[
+              baseNavClass,
+              isActive(item.href) ? "is-active border-[color:var(--accent)] text-[color:var(--ink)]" : "border-transparent"
+            ]}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+    </div>
+    <nav class="flex gap-4 overflow-x-auto pb-4 text-xs text-[color:var(--ink-soft)] md:hidden">
       {siteConfig.navigation.map((item) => (
-        <a href={item.href} class="text-[color:var(--ink-muted)] transition hover:text-[color:var(--ink)]">
+        <a
+          href={item.href}
+          data-nav-href={item.href}
+          class:list={[
+            "site-nav-link shrink-0 border-b pb-1 transition-colors duration-200 hover:border-[color:var(--accent)] hover:text-[color:var(--ink)]",
+            isActive(item.href) ? "is-active border-[color:var(--accent)] text-[color:var(--ink)]" : "border-transparent"
+          ]}
+        >
           {item.label}
         </a>
       ))}
     </nav>
-    <a
-      href="/submit"
-      class="rounded-full bg-[color:var(--accent)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[color:var(--accent-deep)]"
-    >
-      录入新工具
-    </a>
   </div>
 </header>
+
+<script>
+  const navLinks = Array.from(document.querySelectorAll("[data-nav-href]"));
+
+  const syncHomepageHashState = () => {
+    if (window.location.pathname !== "/") return;
+
+    const hash = window.location.hash;
+
+    navLinks.forEach((link) => {
+      const href = link.getAttribute("data-nav-href");
+      const shouldActivate =
+        (href === "/" && !hash) || (href === "/#paths" && hash === "#paths") || (href === "/#reviews" && hash === "#reviews");
+
+      if (shouldActivate) {
+        link.classList.add("is-active");
+      } else if (href === "/" || href === "/#paths" || href === "/#reviews") {
+        link.classList.remove("is-active");
+      }
+    });
+  };
+
+  syncHomepageHashState();
+  window.addEventListener("hashchange", syncHomepageHashState);
+  window.addEventListener("astro:after-swap", syncHomepageHashState);
+</script>
+
+<style>
+  .site-nav-link {
+    border-color: transparent;
+  }
+
+  .site-nav-link.is-active {
+    border-color: var(--accent);
+    color: var(--ink);
+  }
+</style>

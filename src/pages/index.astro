@@ -1,73 +1,235 @@
 ---
-import { getCollection } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import SearchForm from "@/components/forms/SearchForm.astro";
-import NewsletterForm from "@/components/forms/NewsletterForm.astro";
-import SectionHeading from "@/components/site/SectionHeading.astro";
 import ToolCard from "@/components/site/ToolCard.astro";
+import NewsletterForm from "@/components/forms/NewsletterForm.astro";
+import { loadHomepageData } from "@/lib/content/page-data";
 
-const tools = await getCollection("tools");
-const categories = await getCollection("categories");
-const comparisons = await getCollection("comparisons");
-const useCases = await getCollection("use-cases");
-const newsletterStatus = Astro.url.searchParams.get("newsletter");
+const { featuredBestPages, editorPicks, recentReviews, leadBestPage, leadTool, meta } = await loadHomepageData();
+const secondaryPathCards = featuredBestPages.filter((page) => page.id !== leadBestPage.id).slice(0, 2);
+const recentReviewCards = recentReviews.slice(0, 3);
+const newsletterStatusParam = Astro.url.searchParams.get("newsletter");
+const newsletterStatus =
+  newsletterStatusParam === "success" || newsletterStatusParam === "error" ? newsletterStatusParam : undefined;
 const newsletterReason = Astro.url.searchParams.get("reason");
+const formatDate = (date: Date | undefined) =>
+  new Intl.DateTimeFormat("zh-CN", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).format(date ?? new Date());
 ---
 
-<BaseLayout title="AI 工具垂直导航" description="面向中文内容创作者的 AI 工具发现与比较站点。">
-  <section class="container-shell py-16 md:py-24">
-    <div class="grid items-end gap-10 lg:grid-cols-[1.3fr_0.7fr]">
-      <div class="space-y-6">
-        <p class="eyebrow">Curated For Chinese Ops Teams</p>
-        <h1 class="max-w-4xl text-5xl font-black tracking-tight md:text-7xl">
-          帮中文内容团队更快筛到真正能落地的 AI 工具
-        </h1>
-        <p class="max-w-2xl text-lg leading-8 text-[color:var(--ink-muted)]">
-          聚焦写作、协作、内容工作流与中国区可用性。不是列一堆产品，而是给出可执行的选型判断。
-        </p>
-        <SearchForm />
+<BaseLayout title={meta.title} description={meta.description} canonical={meta.canonical} openGraph={meta.openGraph}>
+  <section class="container-shell page-section pt-10 md:pt-16">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,1.08fr)_minmax(340px,0.72fr)]">
+      <div class="flex min-h-[26rem] flex-col justify-between md:min-h-[32.625rem]">
+        <div class="space-y-7">
+          <p class="eyebrow">AI Selection For Teams</p>
+          <h1 class="editorial-display homepage-display max-w-4xl">
+            <span class="block md:hidden">面向编程与内容场景</span>
+            <span class="block md:hidden">更快找到适用 AI 工具</span>
+            <span class="hidden md:inline">
+              面向编程与内容场景，
+              <span class="md:block">更快找到适用 AI 工具</span>
+            </span>
+          </h1>
+          <p class="max-w-2xl text-[1.05rem] leading-8 text-[color:var(--ink-muted)]">
+            我们先按场景、工作流和落地条件收窄选择范围，再用单工具评测帮你更快做出判断。
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-4 pt-8">
+          <a href="#paths" class="editorial-button editorial-button-primary">开始选型</a>
+          <a href="/about" class="editorial-button editorial-button-secondary">了解评测标准</a>
+        </div>
       </div>
-      <div class="card-surface p-8">
-        <p class="text-sm font-semibold text-[color:var(--accent-deep)]">本周导航重点</p>
-        <div class="mt-6 space-y-5">
+      <div class="hero-media hero-media-home bg-[linear-gradient(180deg,rgba(241,237,236,0.9),rgba(253,248,247,0.96))]">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_58%_38%,rgba(138,90,54,0.16),transparent_20%),radial-gradient(circle_at_44%_56%,rgba(23,20,17,0.08),transparent_26%)]"></div>
+        <div class="absolute left-[18%] top-[17%] h-[56%] w-[56%] rounded-full border border-[rgba(138,90,54,0.22)]"></div>
+        <div class="absolute left-[24%] top-[22%] h-[44%] w-[44%] rounded-full border border-[rgba(138,90,54,0.28)]"></div>
+        <div class="absolute left-[31%] top-[29%] h-[30%] w-[30%] rounded-full border border-[rgba(138,90,54,0.4)]"></div>
+        <div class="absolute left-[52%] top-[16%] h-[60%] w-[1px] -rotate-12 bg-[rgba(23,20,17,0.12)]"></div>
+        <div class="absolute left-8 top-8 text-[10px] uppercase tracking-[0.28em] text-[color:var(--accent)]">Programming + Content Workflows</div>
+        <div class="absolute bottom-8 left-8 right-8 flex items-end justify-between gap-6">
           <div>
-            <p class="text-sm text-[color:var(--ink-muted)]">精选分类</p>
-            <a href={`/categories/${categories[0].data.slug}`} class="mt-1 block text-2xl font-bold">
-              {categories[0].data.name}
-            </a>
+            <p class="font-['Noto_Serif_SC'] text-3xl font-semibold text-[color:var(--ink)]">{leadTool.data.name}</p>
+            <p class="mt-2 max-w-[14rem] text-sm leading-7 text-[color:var(--ink-muted)]">{leadTool.data.tagline}</p>
           </div>
-          <div>
-            <p class="text-sm text-[color:var(--ink-muted)]">最新对比</p>
-            <a href={`/compare/${comparisons[0].data.slug}`} class="mt-1 block text-2xl font-bold">
-              {comparisons[0].data.title}
-            </a>
-          </div>
-          <div>
-            <p class="text-sm text-[color:var(--ink-muted)]">场景入口</p>
-            <a href={`/use-cases/${useCases[0].data.slug}`} class="mt-1 block text-2xl font-bold">
-              {useCases[0].data.title}
-            </a>
-          </div>
+          <p class="text-xs uppercase tracking-[0.2em] text-[color:var(--ink-soft)]">{leadTool.data.tags[0] ?? "Curated"}</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="container-shell space-y-8 py-8">
-    <SectionHeading eyebrow="Editor Picks" title="编辑精选工具" summary="先给两条清晰路径：工作流一体化，或者营销文案规模化。" />
-    <div class="grid gap-6 md:grid-cols-2">
-      {tools.map((tool) => <ToolCard tool={tool} />)}
+  <section id="paths" class="bg-[color:var(--surface-muted)] py-16 md:py-20">
+    <div class="container-shell">
+      <div class="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="eyebrow mb-3">Selection Paths</p>
+          <h2 class="editorial-title">先看选型路径，再细分任务</h2>
+          <p class="mt-3 max-w-2xl text-base leading-8 text-[color:var(--ink-muted)]">
+            首页先按代码协作、内容生产和跨团队协作三条路径组织选择逻辑，后续再继续补更细的任务场景。
+          </p>
+        </div>
+        <a href="/#reviews" class="text-sm font-medium text-[color:var(--ink)] transition hover:text-[color:var(--accent)]">
+          直接看精选工具 →
+        </a>
+      </div>
+      <div class="grid gap-5 md:grid-cols-3">
+        <article class="editorial-card flex h-full flex-col p-7">
+          <div class="mb-10">
+            <p class="eyebrow mb-4">For Engineering</p>
+            <h3 class="editorial-heading">代码协作</h3>
+          </div>
+          <div class="mt-auto border-t border-[color:var(--line)] pt-6">
+            <p class="text-sm leading-7 text-[color:var(--ink-muted)]">
+              优先判断代码生成、代码审查、调试、知识库检索、API 与 IDE 集成能力，而不只是模型名气。
+            </p>
+            <a href="/best/engineering-workflow" class="mt-5 inline-flex text-xs uppercase tracking-[0.18em] text-[color:var(--ink-soft)] transition hover:text-[color:var(--accent)]">
+              查看研发路径
+            </a>
+          </div>
+        </article>
+        <article class="editorial-card flex h-full flex-col p-7">
+          <div class="mb-10">
+            <p class="eyebrow mb-4">For Content</p>
+            <h3 class="editorial-heading">内容生产</h3>
+          </div>
+          <div class="mt-auto border-t border-[color:var(--line)] pt-6">
+            <p class="text-sm leading-7 text-[color:var(--ink-muted)]">
+              优先判断研究、提纲、写作、协作、分发与中国区落地阻力，适合已经在用 AI 但流程还不稳定的团队。
+            </p>
+            <a href="/best/content-workflow" class="mt-5 inline-flex text-xs uppercase tracking-[0.18em] text-[color:var(--ink-soft)] transition hover:text-[color:var(--accent)]">
+              查看内容路径
+            </a>
+          </div>
+        </article>
+        <article class="editorial-card flex h-full flex-col p-7">
+          <div class="mb-10">
+            <p class="eyebrow mb-4">Cross-Team</p>
+            <h3 class="editorial-heading">跨团队协作</h3>
+          </div>
+          <div class="mt-auto border-t border-[color:var(--line)] pt-6">
+            <p class="text-sm leading-7 text-[color:var(--ink-muted)]">
+              面向需要共享研究、知识整理、快速问答与多角色协作的团队，先看通用助手和跨场景工具，再决定是否补专用产品。
+            </p>
+            <a href="/#reviews" class="mt-5 inline-flex text-xs uppercase tracking-[0.18em] text-[color:var(--ink-soft)] transition hover:text-[color:var(--accent)]">
+              查看通用工具
+            </a>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
-  <section class="container-shell py-12">
-    <SectionHeading eyebrow="Newsletter" title="每周一次，更新值得关注的新工具与新结论" />
-    <div class="mt-8">
-      <NewsletterForm
-        source="homepage"
-        status={newsletterStatus === "success" || newsletterStatus === "error" ? newsletterStatus : undefined}
-        reason={newsletterReason}
-      />
+  <section class="container-shell page-section">
+    <div class="mb-10 text-center">
+      <p class="eyebrow mb-3">Current Live Paths</p>
+      <h2 class="editorial-title">当前已上线的场景页</h2>
+      <p class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-[color:var(--ink-muted)]">
+        研发协作和内容生产两条主路径都已经上线，后续会继续补更细的代码生成、代码审查、技术文档和内部知识库场景。
+      </p>
+    </div>
+    <div class="grid gap-6 lg:grid-cols-12">
+      <article class="hero-media group lg:col-span-8">
+        <div class="absolute inset-0 bg-[linear-gradient(135deg,rgba(23,20,17,0.88),rgba(58,46,40,0.72))]"></div>
+        <div class="absolute inset-y-0 right-[12%] w-[38%] rounded-full border border-[rgba(255,255,255,0.14)]"></div>
+        <div class="absolute inset-y-[12%] right-[18%] w-[24%] rounded-full border border-[rgba(255,255,255,0.12)]"></div>
+        <div class="absolute left-0 right-0 top-[55%] h-px bg-[rgba(255,255,255,0.12)]"></div>
+        <div class="absolute inset-0 flex flex-col justify-end p-8 text-white md:p-12">
+          <p class="eyebrow mb-4 text-[rgba(255,255,255,0.86)]">{leadTool.data.tags[0] ?? "Strategy & Research"}</p>
+          <h3 class="max-w-2xl font-['Noto_Serif_SC'] text-3xl leading-tight font-semibold md:text-4xl">{leadBestPage.data.title}</h3>
+          <p class="mt-4 max-w-2xl text-sm leading-7 text-[rgba(255,255,255,0.82)]">{leadBestPage.data.summary}</p>
+          <a href={`/best/${leadBestPage.data.slug}`} class="mt-6 inline-flex w-fit border-b border-white/70 pb-1 text-sm uppercase tracking-[0.15em]">
+            查看路径
+          </a>
+        </div>
+      </article>
+      <div class="grid gap-6 lg:col-span-4">
+        {secondaryPathCards.map((page) => (
+          <article class="editorial-card flex min-h-[12rem] flex-col justify-center p-8 transition hover:border-[color:var(--accent)]">
+            <p class="eyebrow mb-4">Use Case</p>
+            <h3 class="editorial-heading">
+              <a href={`/best/${page.data.slug}`}>{page.data.title}</a>
+            </h3>
+            <p class="mt-4 text-sm leading-7 text-[color:var(--ink-muted)]">{page.data.summary}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="reviews" class="page-section bg-[color:var(--surface)]">
+    <div class="container-shell">
+      <div class="mb-10 flex flex-col gap-4 border-b border-[color:var(--line)] pb-5 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="eyebrow mb-3">Editor's Picks</p>
+          <h2 class="editorial-title">当前精选工具</h2>
+        </div>
+        <div class="flex flex-wrap gap-6 text-sm text-[color:var(--ink-soft)]">
+          <span class="border-b border-[color:var(--accent)] pb-1 text-[color:var(--ink)]">全部</span>
+          <span>通用助手</span>
+          <span>研究与写作</span>
+          <span>协作与工作流</span>
+        </div>
+      </div>
+      <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        {editorPicks.map((tool) => <ToolCard tool={tool} hideVisualHeader={true} hideScreenshotLink={true} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="container-shell page-section border-t border-[color:var(--line)]">
+    <div class="grid gap-10 lg:grid-cols-[0.38fr_1fr]">
+      <div>
+        <p class="eyebrow mb-3">Recent Reviews</p>
+        <h2 class="editorial-title">最新深度评测</h2>
+        <p class="mt-4 max-w-sm text-base leading-8 text-[color:var(--ink-muted)]">
+          不管是研发还是内容团队，我们都优先保留更接近真实工作流的问题和判断，而不是单纯堆参数与榜单。
+        </p>
+      </div>
+      <div class="space-y-8">
+        {recentReviewCards.map((tool) => (
+          <article class="flex flex-col gap-4 border-b border-[color:var(--line)] pb-8 md:flex-row md:items-baseline md:gap-10">
+            <p class="min-w-24 text-xs uppercase tracking-[0.16em] text-[color:var(--accent)] md:pt-3">
+              {formatDate(tool.data.updatedAt ?? tool.data.publishedAt)}
+            </p>
+            <div class="flex-1">
+              <h3 class="font-['Noto_Serif_SC'] text-[1.45rem] leading-[1.45] font-semibold tracking-[-0.02em] text-[color:var(--ink)] md:text-[1.6rem]">
+                <a href={`/tools/${tool.data.slug}`} class="transition hover:text-[color:var(--accent)]">
+                  {tool.data.name}：{tool.data.verdict}
+                </a>
+              </h3>
+              <p class="mt-3 text-sm leading-7 text-[color:var(--ink-muted)]">{tool.data.summary}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="container-shell pb-16 md:pb-20">
+    <div class="grid gap-10 bg-[color:var(--ink)] px-6 py-14 text-white md:px-12 md:py-16 lg:grid-cols-[minmax(0,1fr)_minmax(340px,0.82fr)] lg:items-end">
+      <div>
+        <p class="eyebrow mb-4 text-[rgba(255,255,255,0.7)]">Submit A Tool</p>
+        <h2 class="max-w-4xl font-['Noto_Serif_SC'] text-3xl leading-tight font-semibold md:text-5xl">发现尚未被认真评测的 AI 工具？</h2>
+        <p class="mt-5 max-w-3xl text-base leading-8 text-[rgba(255,255,255,0.72)]">
+          如果你手上有更适合编程团队、内容团队或跨团队协作的新产品、细分工作流工具或值得关注的更新，欢迎把线索直接提交给我们。
+        </p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a href="/submit" class="editorial-button editorial-button-light">提交工具</a>
+          <a href="/about" class="editorial-button editorial-button-light">了解评测方法</a>
+        </div>
+      </div>
+      <div class="newsletter-panel border border-white/12 bg-white/6 p-6 backdrop-blur-sm">
+        <p class="eyebrow mb-3 text-[rgba(255,255,255,0.68)]">Newsletter</p>
+        <h3 class="font-['Noto_Serif_SC'] text-2xl font-semibold">每周收一封精选更新</h3>
+        <p class="mt-3 text-sm leading-7 text-[rgba(255,255,255,0.68)]">
+          订阅后会收到新评测、选型路径更新和更适合中文团队落地的工具线索。
+        </p>
+        <div class="mt-5">
+          <NewsletterForm source="homepage-editorial-cta" status={newsletterStatus} reason={newsletterReason} />
+        </div>
+      </div>
     </div>
   </section>
 </BaseLayout>

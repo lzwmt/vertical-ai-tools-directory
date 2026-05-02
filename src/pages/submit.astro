@@ -5,35 +5,85 @@ const status = Astro.url.searchParams.get("status");
 const reason = Astro.url.searchParams.get("reason");
 ---
 
-<BaseLayout title="提交工具" description="向站点运营者提交待收录的 AI 工具。">
-  <section class="container-shell py-16">
-    <p class="eyebrow">Submission</p>
-    <h1 class="mt-4 text-4xl font-black tracking-tight md:text-6xl">提交你的 AI 工具</h1>
-    <p class="mt-5 max-w-2xl text-lg leading-8 text-[color:var(--ink-muted)]">
-      当前阶段采用人工审核。提交成功后，站点运营者会根据收录原则进行评估。
-    </p>
-    {
-      status === "success" && (
-        <div class="mt-8 rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm text-emerald-800">
-          提交成功，运营者已收到这条工具线索。
+<BaseLayout title="提交工具" description="向站点运营者提交待收录的 AI 工具或工作流线索。">
+  <section class="container-shell page-section pt-10 md:pt-16">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,0.92fr)_minmax(360px,0.88fr)]">
+      <div class="space-y-7">
+        <p class="eyebrow">Submit A Tool</p>
+        <h1 class="editorial-display max-w-4xl">提交你的 AI 工具线索</h1>
+        <p class="max-w-3xl text-[1.05rem] leading-8 text-[color:var(--ink-muted)]">
+          当前阶段采用人工审核。提交成功后，我们会判断这条线索是否适合进入当前版本的收录范围，以及是否值得继续做团队路径或单工具评测。
+        </p>
+
+        {status === "success" && (
+          <div class="border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm leading-7 text-emerald-800">
+            提交成功，运营者已收到这条工具线索。
+          </div>
+        )}
+
+        {status === "error" && (
+          <div class="border border-amber-200 bg-amber-50 px-5 py-4 text-sm leading-7 text-amber-900">
+            {reason === "database" ? "当前提交服务还没有完成数据库配置，请稍后再试。" : "提交失败，请检查必填项和网址格式后重试。"}
+          </div>
+        )}
+
+        <div class="card-surface p-6">
+          <p class="eyebrow mb-3">What Helps</p>
+          <h2 class="editorial-heading">什么样的线索更有用</h2>
+          <ul class="mt-4 space-y-2 text-sm leading-7 text-[color:var(--ink-muted)]">
+            <li>已经有明确目标团队、核心场景或工作流位置。</li>
+            <li>能解释它为什么比同类工具更值得编程团队、内容团队或跨团队协作试用。</li>
+            <li>如果涉及中国区落地、部署方式、API、插件或权限要求，最好直接说明前提。</li>
+          </ul>
         </div>
-      )
-    }
-    {
-      status === "error" && (
-        <div class="mt-8 rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm text-amber-900">
-          {reason === "database" ? "当前提交服务还没有完成数据库配置，请稍后再试。" : "提交失败，请检查必填项和网址格式后重试。"}
-        </div>
-      )
-    }
-    <form method="post" action="/api/submissions" class="card-surface mt-10 grid gap-4 p-8 md:grid-cols-2">
-      <input required name="toolName" placeholder="工具名" class="rounded-2xl border border-[color:var(--line)] bg-white/70 px-4 py-3" />
-      <input required type="url" name="website" placeholder="官网链接" class="rounded-2xl border border-[color:var(--line)] bg-white/70 px-4 py-3" />
-      <input required name="category" placeholder="所属分类" class="rounded-2xl border border-[color:var(--line)] bg-white/70 px-4 py-3" />
-      <input required name="contactName" placeholder="联系人" class="rounded-2xl border border-[color:var(--line)] bg-white/70 px-4 py-3" />
-      <input required type="email" name="email" placeholder="联系邮箱" class="rounded-2xl border border-[color:var(--line)] bg-white/70 px-4 py-3" />
-      <textarea name="notes" placeholder="补充说明" class="min-h-40 rounded-2xl border border-[color:var(--line)] bg-white/70 px-4 py-3 md:col-span-2"></textarea>
-      <button class="rounded-2xl bg-[color:var(--accent)] px-4 py-3 font-semibold text-white md:col-span-2">提交审核</button>
-    </form>
+      </div>
+
+      <form method="post" action="/api/submissions" class="card-surface grid gap-4 p-8 md:grid-cols-2">
+        <input
+          required
+          name="toolName"
+          autocomplete="organization-title"
+          placeholder="工具名"
+          class="border border-[color:var(--line)] bg-white/70 px-4 py-3 text-base outline-none transition focus:border-[color:var(--accent)] md:col-span-1"
+        />
+        <input
+          required
+          type="url"
+          name="website"
+          autocomplete="url"
+          placeholder="官网链接"
+          class="border border-[color:var(--line)] bg-white/70 px-4 py-3 text-base outline-none transition focus:border-[color:var(--accent)] md:col-span-1"
+        />
+        <input
+          required
+          name="category"
+          autocomplete="off"
+          placeholder="所属分类或方向"
+          class="border border-[color:var(--line)] bg-white/70 px-4 py-3 text-base outline-none transition focus:border-[color:var(--accent)]"
+        />
+        <input
+          required
+          name="contactName"
+          autocomplete="name"
+          placeholder="联系人"
+          class="border border-[color:var(--line)] bg-white/70 px-4 py-3 text-base outline-none transition focus:border-[color:var(--accent)]"
+        />
+        <input
+          required
+          type="email"
+          name="email"
+          autocomplete="email"
+          placeholder="联系邮箱"
+          class="border border-[color:var(--line)] bg-white/70 px-4 py-3 text-base outline-none transition focus:border-[color:var(--accent)] md:col-span-2"
+        />
+        <textarea
+          name="notes"
+          autocomplete="off"
+          placeholder="补充说明：适合哪类团队、解决什么问题、和哪些工具相比更值得看，是否支持 API / 插件 / 知识库 / 私有化。"
+          class="min-h-44 border border-[color:var(--line)] bg-white/70 px-4 py-3 text-base outline-none transition focus:border-[color:var(--accent)] md:col-span-2"
+        ></textarea>
+        <button class="editorial-button editorial-button-primary md:col-span-2">提交审核</button>
+      </form>
+    </div>
   </section>
 </BaseLayout>

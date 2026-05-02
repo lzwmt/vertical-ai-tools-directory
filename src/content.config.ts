@@ -13,6 +13,8 @@ const tools = defineCollection({
   schema: z.object({
     name: z.string(),
     slug: z.string(),
+    featured: z.boolean().default(false),
+    verdict: z.string(),
     tagline: z.string(),
     category: reference("categories"),
     priceLabel: z.string(),
@@ -27,9 +29,11 @@ const tools = defineCollection({
     pros: z.array(z.string()).min(2),
     cons: z.array(z.string()).min(1),
     bestFor: z.array(z.string()).min(2),
+    notFor: z.array(z.string()).min(1),
     alternatives: z.array(reference("tools")).default([]),
     tags: z.array(z.string()).default([]),
     publishedAt: z.coerce.date(),
+    updatedAt: z.coerce.date().optional(),
     seo: seoSchema
   })
 });
@@ -43,6 +47,7 @@ const categories = defineCollection({
     heroTitle: z.string(),
     heroSummary: z.string(),
     featuredToolSlugs: z.array(z.string()),
+    childCategorySlugs: z.array(z.string()).default([]),
     faq: z
       .array(
         z.object({
@@ -72,8 +77,27 @@ const useCases = defineCollection({
   schema: z.object({
     title: z.string(),
     slug: z.string(),
+    featured: z.boolean().default(false),
+    summary: z.string(),
     featuredTools: z.array(reference("tools")).min(2),
     rankingMethod: z.string(),
+    rankingCriteria: z.array(z.string()).min(2),
+    audienceRecommendations: z
+      .array(
+        z.object({
+          audience: z.string(),
+          recommendation: z.string()
+        })
+      )
+      .min(1),
+    faq: z
+      .array(
+        z.object({
+          question: z.string(),
+          answer: z.string()
+        })
+      )
+      .default([]),
     seo: seoSchema
   })
 });

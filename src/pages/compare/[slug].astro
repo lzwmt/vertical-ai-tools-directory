@@ -1,7 +1,6 @@
 ---
 import { getCollection, getEntries, getEntry, render } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import SectionHeading from "@/components/site/SectionHeading.astro";
 
 export const prerender = true;
 
@@ -22,49 +21,68 @@ const { Content } = await render(page);
 ---
 
 <BaseLayout title={page.data.seo.title} description={page.data.seo.description}>
-  <section class="container-shell py-16">
-    <p class="eyebrow">Comparison</p>
-    <h1 class="mt-4 text-4xl font-black tracking-tight md:text-6xl">{page.data.title}</h1>
-    <p class="mt-5 max-w-3xl text-lg leading-8 text-[color:var(--ink-muted)]">{page.data.winnerSummary}</p>
+  <section class="container-shell page-section pt-10 md:pt-16">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(340px,0.72fr)]">
+      <div class="space-y-7">
+        <p class="eyebrow">Comparative Review</p>
+        <h1 class="editorial-display max-w-4xl">{page.data.title}</h1>
+        <p class="max-w-3xl text-[1.05rem] leading-8 text-[color:var(--ink-muted)]">{page.data.winnerSummary}</p>
+      </div>
+      <aside class="card-surface p-8">
+        <p class="eyebrow mb-4">Recommended For</p>
+        <h2 class="editorial-heading">推荐摘要</h2>
+        <p class="mt-5 text-base leading-8 text-[color:var(--ink-muted)]">{page.data.recommendedFor.join(" · ")}</p>
+        <div class="mt-8 flex flex-wrap gap-3 border-t border-[color:var(--line)] pt-6">
+          {tools.map((tool) => (
+            <a href={`/tools/${tool?.data.slug}`} class="editorial-button editorial-button-secondary">
+              查看 {tool?.data.name}
+            </a>
+          ))}
+        </div>
+      </aside>
+    </div>
   </section>
 
-  <section class="container-shell space-y-8 py-8">
-    <div class="overflow-hidden rounded-[2rem] border border-[color:var(--line)] bg-white/75">
-      <table class="w-full border-collapse text-left text-sm">
-        <thead>
-          <tr>
-            <th class="border-b border-[color:var(--line)] px-6 py-4">维度</th>
-            {tools.map((tool) => <th class="border-b border-[color:var(--line)] px-6 py-4">{tool?.data.name}</th>)}
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="border-b border-[color:var(--line)] px-6 py-4 font-semibold">价格</td>
-            {tools.map((tool) => <td class="border-b border-[color:var(--line)] px-6 py-4">{tool?.data.priceLabel}</td>)}
-          </tr>
-          <tr>
-            <td class="border-b border-[color:var(--line)] px-6 py-4 font-semibold">中文支持</td>
-            {tools.map((tool) => <td class="border-b border-[color:var(--line)] px-6 py-4">{tool?.data.supportsChinese ? "支持" : "一般"}</td>)}
-          </tr>
-          <tr>
-            <td class="px-6 py-4 font-semibold">适合人群</td>
-            {tools.map((tool) => <td class="px-6 py-4">{tool?.data.bestFor.join(" / ")}</td>)}
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <article class="prose prose-neutral max-w-none">
-      <Content />
-    </article>
-    <div class="card-surface p-8">
-      <SectionHeading title="推荐摘要" summary={page.data.recommendedFor.join(" · ")} />
-      <div class="mt-6 flex flex-wrap gap-3">
-        {tools.map((tool) => (
-          <a href={`/tools/${tool?.data.slug}`} class="rounded-full bg-white/80 px-4 py-2 text-sm font-semibold">
-            查看 {tool?.data.name}
-          </a>
-        ))}
+  <section class="container-shell page-section pt-0">
+    <div class="card-surface overflow-hidden">
+      <div class="border-b border-[color:var(--line)] px-6 py-5 md:px-8">
+        <p class="eyebrow mb-2">Quick Matrix</p>
+        <h2 class="editorial-heading">核心差异</h2>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full min-w-[760px] border-collapse text-left">
+          <thead>
+            <tr class="border-b border-[color:var(--line)]">
+              <th class="px-6 py-5 text-sm font-medium text-[color:var(--ink-soft)] md:px-8">维度</th>
+              {tools.map((tool) => (
+                <th class="px-6 py-5 font-['Noto_Serif_SC'] text-2xl font-semibold text-[color:var(--ink)] md:px-8">{tool?.data.name}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-[color:var(--line)]">
+              <td class="px-6 py-5 text-sm font-medium text-[color:var(--ink-soft)] md:px-8">价格</td>
+              {tools.map((tool) => <td class="px-6 py-5 text-base text-[color:var(--ink)] md:px-8">{tool?.data.priceLabel}</td>)}
+            </tr>
+            <tr class="border-b border-[color:var(--line)]">
+              <td class="px-6 py-5 text-sm font-medium text-[color:var(--ink-soft)] md:px-8">中文支持</td>
+              {tools.map((tool) => (
+                <td class="px-6 py-5 text-base text-[color:var(--ink)] md:px-8">{tool?.data.supportsChinese ? "支持" : "一般"}</td>
+              ))}
+            </tr>
+            <tr>
+              <td class="px-6 py-5 text-sm font-medium text-[color:var(--ink-soft)] align-top md:px-8">适合人群</td>
+              {tools.map((tool) => <td class="px-6 py-5 text-base leading-8 text-[color:var(--ink-muted)] md:px-8">{tool?.data.bestFor.join(" / ")}</td>)}
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
+  </section>
+
+  <section class="container-shell page-section pt-0">
+    <article class="max-w-4xl space-y-8 border-t border-[color:var(--line)] pt-8 [&_h2]:mt-10 [&_h2]:font-['Noto_Serif_SC'] [&_h2]:text-3xl [&_h2]:font-semibold [&_h2]:text-[color:var(--ink)] [&_h2]:tracking-[-0.02em] [&_p]:text-lg [&_p]:leading-9 [&_p]:text-[color:var(--ink)] [&_p+_p]:mt-5">
+      <Content />
+    </article>
   </section>
 </BaseLayout>

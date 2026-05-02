@@ -1,0 +1,12 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" rx="48" fill="#E8F7ED"/>
+  <rect x="68" y="68" width="1064" height="584" rx="40" fill="#FAFDFB" stroke="#CFEFD9" stroke-width="4"/>
+  <circle cx="184" cy="172" r="58" fill="#15A05A"/>
+  <path d="M184 147C197.807 147 209 158.193 209 172C209 185.807 197.807 197 184 197C170.193 197 159 185.807 159 172C159 158.193 170.193 147 184 147Z" fill="#E8F7ED"/>
+  <text x="280" y="190" fill="#1A5A38" font-family="Arial, sans-serif" font-size="72" font-weight="700">Grammarly</text>
+  <text x="118" y="324" fill="#3F7D5D" font-family="Arial, sans-serif" font-size="34">Useful for polishing, tone control, and last-mile clarity before publishing.</text>
+  <rect x="118" y="396" width="250" height="88" rx="24" fill="#15A05A"/>
+  <text x="177" y="452" fill="white" font-family="Arial, sans-serif" font-size="34" font-weight="700">Polish</text>
+  <rect x="394" y="396" width="250" height="88" rx="24" fill="#D8F3E3"/>
+  <text x="465" y="452" fill="#1A5A38" font-family="Arial, sans-serif" font-size="34" font-weight="700">Tone</text>
+</svg>

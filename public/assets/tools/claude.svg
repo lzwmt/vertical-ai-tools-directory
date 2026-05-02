@@ -1,0 +1,14 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" rx="48" fill="#F6EEE4"/>
+  <rect x="68" y="68" width="1064" height="584" rx="40" fill="#FFF9F2" stroke="#E5D0B3" stroke-width="4"/>
+  <circle cx="184" cy="172" r="58" fill="#D97706"/>
+  <path d="M170 205L184 139L198 205H170Z" fill="#FFF9F2"/>
+  <text x="280" y="190" fill="#4A2F0B" font-family="Arial, sans-serif" font-size="72" font-weight="700">Claude</text>
+  <text x="118" y="324" fill="#6B4A1A" font-family="Arial, sans-serif" font-size="34">Best for digesting long notes, interviews, and messy source material.</text>
+  <rect x="118" y="396" width="306" height="88" rx="24" fill="#D97706"/>
+  <text x="170" y="452" fill="white" font-family="Arial, sans-serif" font-size="34" font-weight="700">Long-form</text>
+  <rect x="448" y="396" width="306" height="88" rx="24" fill="#F3E3CE"/>
+  <text x="512" y="452" fill="#5C3C11" font-family="Arial, sans-serif" font-size="34" font-weight="700">Synthesis</text>
+  <rect x="778" y="396" width="208" height="88" rx="24" fill="#F3E3CE"/>
+  <text x="835" y="452" fill="#5C3C11" font-family="Arial, sans-serif" font-size="34" font-weight="700">Draft</text>
+</svg>

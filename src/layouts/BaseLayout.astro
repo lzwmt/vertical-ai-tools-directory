@@ -2,13 +2,25 @@
 import Header from "@/components/site/Header.astro";
 import Footer from "@/components/site/Footer.astro";
 import "@/styles/global.css";
+import { siteConfig } from "@/lib/config/site";
 
 interface Props {
   title: string;
   description: string;
+  canonical?: string;
+  openGraph?: {
+    title: string;
+    description: string;
+    url: string;
+    siteName: string;
+    locale: string;
+    type: string;
+  };
+  structuredData?: Array<Record<string, unknown>> | Record<string, unknown>;
 }
 
-const { title, description } = Astro.props;
+const { title, description, canonical, openGraph, structuredData } = Astro.props;
+const structuredDataItems = structuredData ? (Array.isArray(structuredData) ? structuredData : [structuredData]) : [];
 ---
 
 <!doctype html>
@@ -17,11 +29,26 @@ const { title, description } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#fdf8f7" />
+    <meta property="og:site_name" content={openGraph?.siteName ?? siteConfig.name} />
+    <meta property="og:locale" content={openGraph?.locale ?? "zh_CN"} />
+    <meta property="og:type" content={openGraph?.type ?? "website"} />
+    <meta property="og:title" content={openGraph?.title ?? title} />
+    <meta property="og:description" content={openGraph?.description ?? description} />
+    <meta property="og:url" content={openGraph?.url ?? canonical ?? siteConfig.url} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={openGraph?.title ?? title} />
+    <meta name="twitter:description" content={openGraph?.description ?? description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+    {structuredDataItems.map((item) => (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(item)} />
+    ))}
   </head>
   <body>
     <Header />
-    <main>
+    <main class="overflow-x-hidden">
       <slot />
     </main>
     <Footer />

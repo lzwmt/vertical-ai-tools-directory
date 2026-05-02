@@ -3,10 +3,25 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
 <BaseLayout title="页面不存在" description="找不到你访问的页面。">
-  <section class="container-shell py-24 text-center">
-    <p class="eyebrow">404</p>
-    <h1 class="mt-4 text-5xl font-black">页面不存在</h1>
-    <p class="mt-4 text-[color:var(--ink-muted)]">你可以返回首页重新浏览工具与分类。</p>
-    <a href="/" class="mt-8 inline-flex rounded-full bg-[color:var(--accent)] px-5 py-3 font-semibold text-white">返回首页</a>
+  <section class="container-shell page-section pt-16 text-center md:pt-24">
+    <div class="mx-auto max-w-4xl space-y-7">
+      <p class="eyebrow">404</p>
+      <h1 class="editorial-display">页面不存在</h1>
+      <p class="mx-auto max-w-2xl text-[1.05rem] leading-8 text-[color:var(--ink-muted)]">
+        你访问的链接可能已经移动，或者它并不在当前版本的收录范围内。可以先回到首页，按阅读路径重新进入。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/" class="editorial-button editorial-button-primary">返回首页</a>
+        <a href="/about" class="editorial-button editorial-button-secondary">了解本站范围</a>
+      </div>
+    </div>
+    <div class="hero-media mx-auto mt-14 max-w-3xl min-h-[18rem] bg-[linear-gradient(180deg,rgba(241,237,236,0.9),rgba(253,248,247,0.96))]">
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(138,90,54,0.14),transparent_22%)]"></div>
+      <div class="absolute left-[20%] top-[20%] h-[60%] w-[60%] rounded-full border border-[rgba(138,90,54,0.22)]"></div>
+      <div class="absolute left-[28%] top-[28%] h-[44%] w-[44%] rounded-full border border-[rgba(138,90,54,0.28)]"></div>
+      <div class="absolute inset-0 flex items-center justify-center font-['Noto_Serif_SC'] text-7xl font-semibold text-[rgba(23,20,17,0.78)]">
+        404
+      </div>
+    </div>
   </section>
 </BaseLayout>

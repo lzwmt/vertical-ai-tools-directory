@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">JetBrains AI Assistant</title>
+  <desc id="desc">Placeholder logo for JetBrains AI Assistant</desc>
+  <rect width="128" height="128" rx="28" fill="#000000"/>
+  <rect x="28" y="28" width="72" height="72" rx="14" fill="#f43f5e"/>
+  <path d="M46 82h36v-8H64V46H46v36z" fill="#ffffff"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Writesonic</title>
+  <desc id="desc">Placeholder logo for Writesonic</desc>
+  <rect width="128" height="128" rx="28" fill="#111827"/>
+  <path d="M26 36h14l9 37 10-28h10l10 28 9-37h14l-17 56H94L84 64 74 92H43L26 36z" fill="#f9fafb"/>
+</svg>

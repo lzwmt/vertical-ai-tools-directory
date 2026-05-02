@@ -1,0 +1,23 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  page: CollectionEntry<"use-cases">;
+}
+
+const { page } = Astro.props;
+---
+
+<article class="card-surface p-6">
+  <p class="eyebrow">Reading Path</p>
+  <h3 class="editorial-heading mt-5">
+    <a href={`/best/${page.data.slug}`}>{page.data.title}</a>
+  </h3>
+  <p class="mt-4 text-sm leading-7 text-[color:var(--ink-muted)]">{page.data.summary}</p>
+  <div class="editorial-rule mt-8 flex items-center justify-between gap-4 pt-6">
+    <span class="text-xs font-medium uppercase tracking-[0.2em] text-[color:var(--accent)]">{page.data.featuredTools.length} tools reviewed</span>
+    <a href={`/best/${page.data.slug}`} class="text-sm font-medium text-[color:var(--ink)] transition hover:text-[color:var(--accent)]">
+      查看路径
+    </a>
+  </div>
+</article>

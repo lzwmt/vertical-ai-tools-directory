@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Replit Agent</title>
+  <desc id="desc">Placeholder logo for Replit Agent</desc>
+  <rect width="128" height="128" rx="28" fill="#1f2937"/>
+  <path d="M34 34h38v18H34V34zm22 24h38v18H56V58zM34 82h60v12H34V82z" fill="#f97316"/>
+</svg>

@@ -2,29 +2,25 @@ import { expect, test } from "@playwright/test";
 
 test("homepage renders core sections", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { name: /AI 工具垂直导航|帮中文内容团队更快筛到真正能落地的 AI 工具/ })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /先看场景清单，再决定哪一个 AI 工具值得进你的内容流程/ })).toBeVisible();
   await expect(page.getByRole("banner").getByRole("link", { name: "提交工具" }).first()).toBeVisible();
+  await expect(page.getByRole("heading", { name: "先从场景页开始看" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "最近更新的单工具评测" })).toBeVisible();
 });
 
-test("newsletter form posts to the API and shows success state", async ({ page }) => {
-  let payload = "";
-
-  await page.route("**/api/newsletter", async (route) => {
-    payload = route.request().postData() ?? "";
-    await route.fulfill({
-      status: 303,
-      headers: {
-        location: "/?newsletter=success"
-      }
-    });
-  });
-
+test("homepage leads into a best-of page and then into a tool review", async ({ page }) => {
   await page.goto("/");
-  await page.getByPlaceholder("输入邮箱，接收每周 AI 工具精选").fill("editor@example.com");
-  await Promise.all([page.waitForURL(/newsletter=success/), page.getByRole("button", { name: "订阅" }).click()]);
+  await Promise.all([
+    page.waitForURL(/\/best\/content-workflow$/),
+    page.locator("#best-of").getByRole("link", { name: "内容团队工作流自动化" }).click()
+  ]);
 
-  expect(payload).toContain("email=editor%40example.com");
-  await expect(page.getByText("订阅已记录")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "编辑推荐工具" })).toBeVisible();
+  await Promise.all([page.waitForURL(/\/tools\/notion-ai$/), page.getByRole("link", { name: "Notion AI" }).first().click()]);
+
+  await expect(page.getByText("一句话结论")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "基础信息" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "相关最受欢迎清单" })).toBeVisible();
 });
 
 test("submit form posts to the API and shows success state", async ({ page }) => {

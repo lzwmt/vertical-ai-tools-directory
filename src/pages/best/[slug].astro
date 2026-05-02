@@ -1,0 +1,103 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import BestToolCard from "@/components/site/BestToolCard.astro";
+import { loadBestPageData } from "@/lib/content/page-data";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const pages = await getCollection("use-cases");
+  return pages.map((page) => ({ params: { slug: page.data.slug } }));
+}
+
+const { slug } = Astro.params;
+const { page, tools, meta, structuredData } = await loadBestPageData(slug!);
+const { Content } = await render(page);
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  canonical={meta.canonical}
+  openGraph={meta.openGraph}
+  structuredData={structuredData}
+>
+  <section class="container-shell page-section pt-10 md:pt-16">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,1.08fr)_minmax(340px,0.72fr)]">
+      <div class="space-y-7">
+        <p class="eyebrow">Curated Use Case</p>
+        <h1 class="editorial-display max-w-4xl">{page.data.title}</h1>
+        <p class="max-w-3xl text-[1.05rem] leading-8 text-[color:var(--ink-muted)]">{page.data.summary}</p>
+        <div class="flex flex-wrap gap-3">
+          {page.data.rankingCriteria.map((item) => (
+            <span class="border border-[color:var(--line)] bg-[rgba(255,255,255,0.55)] px-4 py-2 text-sm leading-6 text-[color:var(--ink-muted)]">
+              {item}
+            </span>
+          ))}
+        </div>
+        <article class="max-w-3xl border-t border-[color:var(--line)] pt-6 text-[color:var(--ink)] [&_p]:text-lg [&_p]:leading-9 [&_p+_p]:mt-5">
+          <Content />
+        </article>
+      </div>
+
+      <aside class="card-surface p-8">
+        <p class="eyebrow mb-4">Ranking Method</p>
+        <h2 class="editorial-heading">排序说明</h2>
+        <p class="mt-5 text-base leading-8 text-[color:var(--ink-muted)]">{page.data.rankingMethod}</p>
+        <div class="mt-8 border-t border-[color:var(--line)] pt-6">
+          <a href="/about" class="editorial-button editorial-button-secondary">关于本站</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="container-shell page-section pt-0">
+    <div class="grid gap-12 lg:grid-cols-[0.62fr_1.38fr]">
+      <div class="space-y-6">
+        <div>
+          <p class="eyebrow mb-3">Audience Notes</p>
+          <h2 class="editorial-title">分人群建议</h2>
+        </div>
+        <div class="space-y-4">
+          {page.data.audienceRecommendations.map((item) => (
+            <article class="editorial-card p-6">
+              <h3 class="font-['Noto_Serif_SC'] text-xl font-semibold text-[color:var(--ink)]">{item.audience}</h3>
+              <p class="mt-3 text-sm leading-7 text-[color:var(--ink-muted)]">{item.recommendation}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div class="space-y-8">
+        <div class="border-b border-[color:var(--line)] pb-5">
+          <p class="eyebrow mb-3">Recommended Tools</p>
+          <h2 class="editorial-title">编辑推荐工具</h2>
+          <p class="mt-3 max-w-2xl text-base leading-8 text-[color:var(--ink-muted)]">
+            每个推荐都带工具评测入口与官网 CTA，方便继续深挖和进入真实试用。
+          </p>
+        </div>
+        <div class="grid gap-6">
+          {tools.map((tool) => <BestToolCard tool={tool} />)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {page.data.faq.length > 0 && (
+    <section class="container-shell page-section pt-0">
+      <div class="border-b border-[color:var(--line)] pb-5">
+        <p class="eyebrow mb-3">FAQ</p>
+        <h2 class="editorial-title">常见问题</h2>
+      </div>
+      <div class="mt-8 grid gap-4">
+        {page.data.faq.map((item) => (
+          <article class="editorial-card p-6 md:p-8">
+            <h3 class="font-['Noto_Serif_SC'] text-2xl font-semibold text-[color:var(--ink)]">{item.question}</h3>
+            <p class="mt-4 max-w-4xl text-sm leading-8 text-[color:var(--ink-muted)]">{item.answer}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
+</BaseLayout>

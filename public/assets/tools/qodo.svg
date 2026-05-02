@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Qodo</title>
+  <desc id="desc">Placeholder logo for Qodo</desc>
+  <rect width="128" height="128" rx="28" fill="#111827"/>
+  <path d="M64 30c19 0 34 15 34 34 0 8-3 15-7 21l9 13H84l-3-4c-5 3-11 4-17 4-19 0-34-15-34-34s15-34 34-34zm0 14c-11 0-20 9-20 20s9 20 20 20c2 0 5 0 7-1l-8-11h15l2 3c3-3 4-7 4-11 0-11-9-20-20-20z" fill="#f9fafb"/>
+</svg>

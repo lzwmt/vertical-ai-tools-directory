@@ -1,15 +1,14 @@
 import { getPublicSiteUrl } from "@/lib/config/env";
 
 export const siteConfig = {
-  name: "AI 工具垂直导航",
-  description: "面向中文内容创作者与运营团队的 AI 工具发现、比较与选型站点。",
+  name: "智选AI",
+  description: "面向中文编程与内容团队的 AI 工具选型、场景路径与单工具评测站点。",
   url: getPublicSiteUrl() || "https://ai-tools.example.com",
   navigation: [
     { href: "/", label: "首页" },
-    { href: "/categories/ai-writing", label: "分类" },
-    { href: "/compare/notion-ai-vs-jasper", label: "对比" },
-    { href: "/use-cases/content-workflow", label: "场景" },
-    { href: "/about", label: "方法论" },
-    { href: "/submit", label: "提交工具" }
+    { href: "/#paths", label: "选型路径" },
+    { href: "/#reviews", label: "精选工具" },
+    { href: "/about", label: "关于本站" },
+    { href: "/submit", label: "提交线索" }
   ]
 } as const;

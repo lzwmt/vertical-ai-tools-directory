@@ -23,11 +23,12 @@ const { source = "site", status, reason } = Astro.props;
   )
 }
 <form method="post" action="/api/newsletter" class="card-surface grid gap-3 p-6 md:grid-cols-[2fr_1fr]">
-  <input type="hidden" name="source" value={source} />
+  <input type="hidden" name="source" value={source} autocomplete="off" />
   <input
     required
     type="email"
     name="email"
+    autocomplete="email"
     placeholder="输入邮箱，接收每周 AI 工具精选"
     class="rounded-2xl border border-[color:var(--line)] bg-white/70 px-4 py-3"
   />

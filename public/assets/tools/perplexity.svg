@@ -1,0 +1,12 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" rx="48" fill="#E7F8F4"/>
+  <rect x="68" y="68" width="1064" height="584" rx="40" fill="#F9FDFC" stroke="#C6EEE4" stroke-width="4"/>
+  <circle cx="184" cy="172" r="58" fill="#139A78"/>
+  <path d="M184 142L203 172L184 202L165 172L184 142Z" fill="#E7F8F4"/>
+  <text x="280" y="190" fill="#145744" font-family="Arial, sans-serif" font-size="72" font-weight="700">Perplexity</text>
+  <text x="118" y="324" fill="#2A6F5D" font-family="Arial, sans-serif" font-size="34">Best when content teams need fast source gathering before drafting.</text>
+  <rect x="118" y="396" width="250" height="88" rx="24" fill="#139A78"/>
+  <text x="184" y="452" fill="white" font-family="Arial, sans-serif" font-size="34" font-weight="700">Research</text>
+  <rect x="394" y="396" width="250" height="88" rx="24" fill="#D5F3EC"/>
+  <text x="463" y="452" fill="#145744" font-family="Arial, sans-serif" font-size="34" font-weight="700">Sources</text>
+</svg>

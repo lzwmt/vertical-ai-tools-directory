@@ -42,3 +42,49 @@ export function buildFaqSchema(items: Array<{ question: string; answer: string }
     }))
   };
 }
+
+export function buildItemListSchema({
+  title,
+  items
+}: {
+  title: string;
+  items: Array<{ name: string; url: string }>;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: title,
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      url: item.url
+    }))
+  };
+}
+
+export function buildSoftwareApplicationSchema({
+  name,
+  description,
+  url,
+  category
+}: {
+  name: string;
+  description: string;
+  url: string;
+  category: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name,
+    description,
+    applicationCategory: category,
+    offers: {
+      "@type": "Offer",
+      availability: "https://schema.org/InStock",
+      url
+    },
+    url
+  };
+}

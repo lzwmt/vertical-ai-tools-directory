@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Sourcegraph Cody</title>
+  <desc id="desc">Placeholder logo for Sourcegraph Cody</desc>
+  <rect width="128" height="128" rx="28" fill="#0b132b"/>
+  <path d="M64 28c18 0 32 16 32 36S82 100 64 100 32 84 32 64s14-36 32-36zm0 14c-11 0-18 10-18 22s7 22 18 22 18-10 18-22-7-22-18-22z" fill="#38bdf8"/>
+</svg>

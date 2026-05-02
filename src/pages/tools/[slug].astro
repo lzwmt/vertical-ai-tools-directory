@@ -1,8 +1,8 @@
 ---
-import { getCollection, getEntry, render } from "astro:content";
+import { getCollection, render } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import SectionHeading from "@/components/site/SectionHeading.astro";
 import { resolveAssetPath } from "@/lib/assets";
+import { loadToolPageData } from "@/lib/content/page-data";
 
 export const prerender = true;
 
@@ -12,70 +12,192 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
-const tool = await getEntry("tools", slug!);
-
-if (!tool) {
-  throw new Error(`Tool not found for slug: ${slug}`);
-}
-
-const alternatives = await Promise.all(tool.data.alternatives.map((item) => getEntry(item.collection, item.id)));
+const { tool, alternatives, relatedBestPages, meta, reviewedAt, structuredData } = await loadToolPageData(slug!);
 const { Content } = await render(tool);
+const targetUrl = tool.data.affiliateUrl ?? tool.data.website;
+const reviewedDate = reviewedAt.toISOString().slice(0, 10);
+const initials = tool.data.name
+  .split(/\s+/)
+  .map((part) => part[0] ?? "")
+  .join("")
+  .slice(0, 3)
+  .toUpperCase();
 ---
 
-<BaseLayout title={tool.data.seo.title} description={tool.data.seo.description}>
-  <section class="container-shell py-16">
-    <div class="grid gap-10 lg:grid-cols-[1fr_0.9fr]">
-      <div class="space-y-6">
-        <p class="eyebrow">{tool.data.priceLabel}</p>
-        <h1 class="text-4xl font-black tracking-tight md:text-6xl">{tool.data.name}</h1>
-        <p class="max-w-2xl text-lg leading-8 text-[color:var(--ink-muted)]">{tool.data.tagline}</p>
-        <div class="flex flex-wrap gap-2 text-sm">
-          {tool.data.bestFor.map((item) => <span class="rounded-full bg-white/70 px-4 py-2">{item}</span>)}
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  canonical={meta.canonical}
+  openGraph={meta.openGraph}
+  structuredData={structuredData}
+>
+  <section class="container-shell page-section pt-10 md:pt-16">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(360px,0.75fr)]">
+      <div class="space-y-7">
+        <div class="flex flex-wrap items-center gap-3">
+          <p class="eyebrow">{tool.data.priceLabel}</p>
+          <span class="border border-[color:var(--line)] px-3 py-1 text-[11px] uppercase tracking-[0.14em] text-[color:var(--ink-soft)]">
+            {tool.data.availableInChina ? "中国区较易落地" : "需评估可达性"}
+          </span>
+          <span class="border border-[color:var(--line)] px-3 py-1 text-[11px] uppercase tracking-[0.14em] text-[color:var(--ink-soft)]">
+            更新于 {reviewedDate}
+          </span>
         </div>
-        <a
-          href={tool.data.affiliateUrl ?? tool.data.website}
-          data-click-track="outbound"
-          data-tool-slug={tool.data.slug}
-          data-source-page={`/tools/${tool.data.slug}`}
-          data-target-url={tool.data.affiliateUrl ?? tool.data.website}
-          rel="nofollow sponsored"
-          class="inline-flex rounded-full bg-[color:var(--accent)] px-5 py-3 font-semibold text-white"
-        >
-          访问官网
-        </a>
+        <h1 class="editorial-display max-w-4xl">{tool.data.name}</h1>
+        <p class="max-w-3xl text-[1.05rem] leading-8 text-[color:var(--ink-muted)]">{tool.data.tagline}</p>
+
+        <div class="card-surface max-w-3xl p-6 md:p-8">
+          <p class="eyebrow mb-3">Editorial Verdict</p>
+          <p class="font-['Noto_Serif_SC'] text-2xl leading-[1.55] text-[color:var(--ink)]">{tool.data.verdict}</p>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+          {tool.data.bestFor.map((item) => (
+            <span class="border border-[color:var(--line)] bg-[rgba(255,255,255,0.55)] px-4 py-2 text-sm leading-6 text-[color:var(--ink-muted)]">
+              {item}
+            </span>
+          ))}
+        </div>
+
+        <div class="flex flex-wrap gap-4">
+          <a
+            href={targetUrl}
+            data-click-track="outbound"
+            data-tool-slug={tool.data.slug}
+            data-source-page={`/tools/${tool.data.slug}`}
+            data-target-url={targetUrl}
+            rel="nofollow sponsored"
+            class="editorial-button editorial-button-primary"
+          >
+            访问官网
+          </a>
+          <a href={resolveAssetPath(tool.data.screenshot)} class="editorial-button editorial-button-secondary">
+            查看截图
+          </a>
+        </div>
       </div>
-      <img src={resolveAssetPath(tool.data.screenshot)} alt={tool.data.name} class="card-surface h-full w-full object-cover" />
+
+      <div class="hero-media min-h-[30rem] bg-[linear-gradient(180deg,rgba(241,237,236,0.92),rgba(253,248,247,0.98))]">
+        <div class="absolute left-8 top-8 flex h-20 w-20 items-center justify-center bg-[color:var(--surface-strong)] font-['Noto_Serif_SC'] text-3xl font-semibold text-[color:var(--accent)]">
+          {initials}
+        </div>
+        <div class="absolute inset-x-8 top-36 border-t border-[color:var(--line)] pt-5">
+          <p class="text-xs uppercase tracking-[0.22em] text-[color:var(--ink-soft)]">{tool.data.name}</p>
+          <p class="mt-3 max-w-[18rem] text-sm leading-7 text-[color:var(--ink-muted)]">{tool.data.summary}</p>
+        </div>
+        <div class="absolute bottom-8 left-8 right-8">
+          <img src={resolveAssetPath(tool.data.screenshot)} alt={tool.data.name} class="w-full rounded-[0.35rem] border border-[color:var(--line)] bg-white/80" />
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="container-shell grid gap-8 py-8 lg:grid-cols-[1.2fr_0.8fr]">
-    <article class="prose prose-neutral max-w-none">
-      <Content />
-    </article>
-    <aside class="space-y-6">
-      <div class="card-surface p-6">
-        <SectionHeading title="优缺点" />
-        <div class="mt-5 space-y-4">
-          <div>
-            <p class="text-sm font-semibold">优点</p>
-            <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-[color:var(--ink-muted)]">
-              {tool.data.pros.map((item) => <li>{item}</li>)}
-            </ul>
-          </div>
-          <div>
-            <p class="text-sm font-semibold">缺点</p>
-            <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-[color:var(--ink-muted)]">
-              {tool.data.cons.map((item) => <li>{item}</li>)}
-            </ul>
+  <section class="container-shell page-section pt-0">
+    <div class="grid gap-12 lg:grid-cols-[minmax(0,1.06fr)_minmax(300px,0.64fr)]">
+      <article class="space-y-8">
+        <div class="border-b border-[color:var(--line)] pb-5">
+          <p class="eyebrow mb-3">Review</p>
+          <h2 class="editorial-title">评测正文</h2>
+        </div>
+        <div class="space-y-8 [&_h2]:font-['Noto_Serif_SC'] [&_h2]:text-3xl [&_h2]:font-semibold [&_h2]:text-[color:var(--ink)] [&_h2]:tracking-[-0.02em] [&_h2]:mt-10 [&_p]:text-lg [&_p]:leading-9 [&_p]:text-[color:var(--ink)] [&_p+_p]:mt-5">
+          <Content />
+        </div>
+      </article>
+
+      <aside class="space-y-6">
+        <div class="card-surface p-6">
+          <p class="eyebrow mb-3">Fact Sheet</p>
+          <h2 class="editorial-heading">基础信息</h2>
+          <dl class="mt-5 space-y-4 text-sm">
+            <div class="flex items-start justify-between gap-4 border-b border-[color:var(--line)] pb-4">
+              <dt class="text-[color:var(--ink-muted)]">适配价格</dt>
+              <dd class="font-medium text-[color:var(--ink)]">{tool.data.priceLabel}</dd>
+            </div>
+            <div class="flex items-start justify-between gap-4 border-b border-[color:var(--line)] pb-4">
+              <dt class="text-[color:var(--ink-muted)]">中文支持</dt>
+              <dd class="font-medium text-[color:var(--ink)]">{tool.data.supportsChinese ? "支持" : "一般"}</dd>
+            </div>
+            <div class="flex items-start justify-between gap-4 border-b border-[color:var(--line)] pb-4">
+              <dt class="text-[color:var(--ink-muted)]">中国区可访问性</dt>
+              <dd class="font-medium text-[color:var(--ink)]">{tool.data.availableInChina ? "较易落地" : "需额外评估"}</dd>
+            </div>
+            <div class="flex items-start justify-between gap-4 border-b border-[color:var(--line)] pb-4">
+              <dt class="text-[color:var(--ink-muted)]">上手门槛</dt>
+              <dd class="font-medium text-[color:var(--ink)]">{tool.data.beginnerFriendly ? "对新手友好" : "需要培训"}</dd>
+            </div>
+            <div class="flex items-start justify-between gap-4">
+              <dt class="text-[color:var(--ink-muted)]">最近更新</dt>
+              <dd class="font-medium text-[color:var(--ink)]">{reviewedDate}</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="card-surface p-6">
+          <p class="eyebrow mb-3">Strengths & Risks</p>
+          <h2 class="editorial-heading">优缺点</h2>
+          <div class="mt-5 space-y-6">
+            <div>
+              <p class="text-xs uppercase tracking-[0.18em] text-[color:var(--accent)]">优点</p>
+              <ul class="mt-3 space-y-2 text-sm leading-7 text-[color:var(--ink-muted)]">
+                {tool.data.pros.map((item) => <li>{item}</li>)}
+              </ul>
+            </div>
+            <div>
+              <p class="text-xs uppercase tracking-[0.18em] text-[color:var(--accent)]">缺点</p>
+              <ul class="mt-3 space-y-2 text-sm leading-7 text-[color:var(--ink-muted)]">
+                {tool.data.cons.map((item) => <li>{item}</li>)}
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="card-surface p-6">
-        <SectionHeading title="替代方案" />
-        <div class="mt-4 space-y-3 text-sm">
-          {alternatives.filter(Boolean).map((item) => <a href={`/tools/${item!.data.slug}`} class="block">{item!.data.name}</a>)}
+
+        <div class="card-surface p-6">
+          <p class="eyebrow mb-3">Fit</p>
+          <h2 class="editorial-heading">适合谁 / 不适合谁</h2>
+          <div class="mt-5 space-y-6">
+            <div>
+              <p class="text-xs uppercase tracking-[0.18em] text-[color:var(--accent)]">适合谁</p>
+              <ul class="mt-3 space-y-2 text-sm leading-7 text-[color:var(--ink-muted)]">
+                {tool.data.bestFor.map((item) => <li>{item}</li>)}
+              </ul>
+            </div>
+            <div>
+              <p class="text-xs uppercase tracking-[0.18em] text-[color:var(--accent)]">不适合谁</p>
+              <ul class="mt-3 space-y-2 text-sm leading-7 text-[color:var(--ink-muted)]">
+                {tool.data.notFor.map((item) => <li>{item}</li>)}
+              </ul>
+            </div>
+          </div>
         </div>
-      </div>
-    </aside>
+
+        {alternatives.length > 0 && (
+          <div class="card-surface p-6">
+            <p class="eyebrow mb-3">Alternatives</p>
+            <h2 class="editorial-heading">替代方案</h2>
+            <div class="mt-4 space-y-3 text-sm leading-7 text-[color:var(--ink-muted)]">
+              {alternatives.filter(Boolean).map((item) => (
+                <a href={`/tools/${item!.data.slug}`} class="block transition hover:text-[color:var(--accent)]">
+                  {item!.data.name}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {relatedBestPages.length > 0 && (
+          <div class="card-surface p-6">
+            <p class="eyebrow mb-3">Related Paths</p>
+            <h2 class="editorial-heading">相关阅读路径</h2>
+            <div class="mt-4 space-y-3 text-sm leading-7 text-[color:var(--ink-muted)]">
+              {relatedBestPages.map((page) => (
+                <a href={`/best/${page.data.slug}`} class="block transition hover:text-[color:var(--accent)]">
+                  {page.data.title}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+      </aside>
+    </div>
   </section>
 </BaseLayout>

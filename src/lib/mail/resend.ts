@@ -42,7 +42,7 @@ export async function sendNewsletterConfirmation(email: string) {
     subject: "已收到你的订阅申请",
     html: `
       <p>你好，</p>
-      <p>你的邮件订阅已经记录成功。后续我们会按周发送 AI 工具精选、对比更新和方法论内容。</p>
+      <p>你的邮件订阅已经记录成功。后续我们会按周发送 AI 工具精选、评测更新和站点新内容。</p>
       <p>如果这不是你本人操作，可以忽略这封邮件。</p>
     `
   });

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+
+<html class="light" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&amp;family=Noto+Sans+SC:wght@300;400;500;700&amp;family=Work+Sans:wght@400;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container": "#f1edec",
+                      "on-tertiary": "#ffffff",
+                      "on-surface-variant": "#4c4640",
+                      "surface": "#fdf8f7",
+                      "primary-fixed": "#e9e1dc",
+                      "on-tertiary-container": "#908271",
+                      "primary-container": "#1e1b18",
+                      "surface-container-low": "#f7f3f1",
+                      "tertiary-container": "#231a0f",
+                      "secondary-container": "#fdbf93",
+                      "outline": "#7d766f",
+                      "surface-bright": "#fdf8f7",
+                      "on-tertiary-fixed-variant": "#504537",
+                      "inverse-on-surface": "#f4f0ee",
+                      "on-secondary": "#ffffff",
+                      "inverse-primary": "#ccc5c0",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-tint": "#625d59",
+                      "primary": "#000000",
+                      "on-error": "#ffffff",
+                      "inverse-surface": "#313030",
+                      "surface-container-high": "#ece7e6",
+                      "outline-variant": "#cfc5bd",
+                      "on-primary-fixed": "#1e1b18",
+                      "secondary-fixed": "#ffdcc5",
+                      "on-primary-fixed-variant": "#4a4642",
+                      "tertiary": "#000000",
+                      "on-primary-container": "#89837e",
+                      "error-container": "#ffdad6",
+                      "on-tertiary-fixed": "#231a0f",
+                      "on-secondary-fixed": "#301400",
+                      "secondary": "#825430",
+                      "on-error-container": "#93000a",
+                      "on-primary": "#ffffff",
+                      "tertiary-fixed-dim": "#d4c4b2",
+                      "on-surface": "#1c1b1b",
+                      "on-secondary-fixed-variant": "#673d1b",
+                      "surface-container-highest": "#e6e1e0",
+                      "on-background": "#1c1b1b",
+                      "background": "#fdf8f7",
+                      "surface-dim": "#ddd9d8",
+                      "tertiary-fixed": "#f1e0cd",
+                      "surface-variant": "#e6e1e0",
+                      "on-secondary-container": "#794b29",
+                      "error": "#ba1a1a",
+                      "primary-fixed-dim": "#ccc5c0",
+                      "secondary-fixed-dim": "#f7b98e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "stack-sm": "12px",
+                      "stack-lg": "48px",
+                      "gutter": "24px",
+                      "unit": "4px",
+                      "margin-desktop": "64px",
+                      "max-width": "1200px",
+                      "stack-md": "24px",
+                      "margin-mobile": "20px",
+                      "stack-xl": "80px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Noto Serif SC"],
+                      "label-sm": ["Work Sans"],
+                      "body-lg": ["Noto Sans SC"],
+                      "headline-display": ["Noto Serif SC"],
+                      "body-md": ["Noto Sans SC"],
+                      "headline-md": ["Noto Serif SC"]
+              },
+              "fontSize": {
+                      "headline-lg": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "body-lg": ["18px", {"lineHeight": "1.8", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                      "headline-display": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "1.7", "letterSpacing": "0", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "500"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background selection:bg-secondary-fixed">
+<!-- Header Navigation -->
+<header class="fixed top-0 z-50 w-full bg-[#FDFCFA] dark:bg-[#171411] border-b border-[#C5B358]/40">
+<nav class="flex justify-between items-center w-full px-16 py-6 max-w-[1440px] mx-auto">
+<div class="text-xl font-semibold text-[#171411] dark:text-[#FDFCFA] font-serif">智选AI (ZhiXuan AI)</div>
+<div class="hidden md:flex items-center space-x-12 font-serif tracking-tight text-sm">
+<a class="text-[#171411] dark:text-[#FDFCFA] border-b border-[#8A5A36] pb-1 hover:text-[#8A5A36] transition-colors duration-300" href="#">首页</a>
+<a class="text-[#171411]/60 dark:text-[#FDFCFA]/60 hover:text-[#8A5A36] transition-colors duration-300" href="#">应用场景</a>
+<a class="text-[#171411]/60 dark:text-[#FDFCFA]/60 hover:text-[#8A5A36] transition-colors duration-300" href="#">工具目录</a>
+<a class="text-[#171411]/60 dark:text-[#FDFCFA]/60 hover:text-[#8A5A36] transition-colors duration-300" href="#">深度评测</a>
+<a class="text-[#171411]/60 dark:text-[#FDFCFA]/60 hover:text-[#8A5A36] transition-colors duration-300" href="#">关于</a>
+</div>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-[#171411] dark:text-[#FDFCFA] hover:scale-95 duration-200" data-icon="search">search</button>
+</div>
+</nav>
+</header>
+<main class="pt-32">
+<!-- Hero Section -->
+<section class="px-16 max-w-[1440px] mx-auto mb-stack-xl">
+<div class="grid grid-cols-12 gap-gutter items-center">
+<div class="col-span-7 pr-12">
+<span class="font-label-sm text-label-sm text-secondary mb-stack-sm block uppercase tracking-widest">Premium AI Curation</span>
+<h1 class="font-headline-display text-headline-display text-primary mb-stack-md leading-tight">
+                        为内容团队深度定制<br/>全球顶尖 AI 智核。
+                    </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mb-stack-lg">
+                        在信息爆炸的时代，我们通过严苛的学术眼光与实战标准，为您筛选、评测并整合最具生产力的 AI 工具体系，构建内容创作的未来。
+                    </p>
+<div class="flex gap-stack-md">
+<button class="bg-primary text-on-primary px-8 py-4 font-body-md hover:bg-secondary transition-colors duration-300">探索目录</button>
+<button class="border border-outline-variant text-primary px-8 py-4 font-body-md hover:bg-surface-container transition-colors duration-300">了解我们的标准</button>
+</div>
+</div>
+<div class="col-span-5 aspect-[4/5] bg-surface-container relative overflow-hidden">
+<img alt="AI Intellegence" class="absolute inset-0 w-full h-full object-cover grayscale opacity-80 mix-blend-multiply" data-alt="A sophisticated digital artwork featuring abstract, floating crystalline structures in soft bronze and warm ivory tones. The lighting is diffused and editorial, creating a serene, academic atmosphere. Minimalist geometric patterns intersect with organic fluid shapes, representing the fusion of human intelligence and artificial neural networks. The overall aesthetic is calm, premium, and clean." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAttLJRsqB9yBH5T3_OrN1s43cod-IVhW61WHf1X3oPqyaGuWZyV74hTjicqzw0WrFc_1VMt1cqjjFR6idWXNOVlRMboMbe_pZ6lhEMGKUSYtVBWqgZTpBC0grYA5e06H6Iv7wLt_VmmVmEY5UW4NAhi0rT16rxit1P4HWo71vugGzniA2lwCrOIz9hSak_xbvtQRz-gARlTglg91PkF_PkjnmBrjzo3MfllicqaCmXvQaxe7fH9W5Xmxo7fwdxZchRBWs12B4ixfo"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent"></div>
+</div>
+</div>
+</section>
+<!-- Curated Reading Path -->
+<section class="bg-surface-container-low py-stack-xl">
+<div class="px-16 max-w-[1440px] mx-auto">
+<div class="flex justify-between items-end mb-stack-lg">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">精选阅读路径</h2>
+<p class="font-body-md text-on-surface-variant">由行业专家策划的知识图谱，助您快速掌握核心应用。</p>
+</div>
+<a class="text-secondary font-label-sm flex items-center gap-2 group" href="#">
+                        查看全部路径 <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-4 gap-gutter">
+<!-- Path Card 1 -->
+<div class="bg-surface border border-[#C5B358]/20 p-8 flex flex-col h-full group hover:border-secondary transition-colors cursor-pointer">
+<div class="mb-12">
+<span class="text-secondary font-label-sm block mb-4">PATH 01</span>
+<h3 class="font-headline-md text-headline-md text-primary group-hover:text-secondary transition-colors">生成式叙事：从脚本到影像</h3>
+</div>
+<div class="mt-auto pt-8 border-t border-outline-variant/40 flex justify-between items-center">
+<span class="font-label-sm text-on-surface-variant">4 深度评测 / 12 工具</span>
+<span class="material-symbols-outlined text-outline">east</span>
+</div>
+</div>
+<!-- Path Card 2 -->
+<div class="bg-surface border border-[#C5B358]/20 p-8 flex flex-col h-full group hover:border-secondary transition-colors cursor-pointer">
+<div class="mb-12">
+<span class="text-secondary font-label-sm block mb-4">PATH 02</span>
+<h3 class="font-headline-md text-headline-md text-primary group-hover:text-secondary transition-colors">垂直领域 LLM 训练指南</h3>
+</div>
+<div class="mt-auto pt-8 border-t border-outline-variant/40 flex justify-between items-center">
+<span class="font-label-sm text-on-surface-variant">6 深度评测 / 8 工具</span>
+<span class="material-symbols-outlined text-outline">east</span>
+</div>
+</div>
+<!-- Path Card 3 -->
+<div class="bg-surface border border-[#C5B358]/20 p-8 flex flex-col h-full group hover:border-secondary transition-colors cursor-pointer">
+<div class="mb-12">
+<span class="text-secondary font-label-sm block mb-4">PATH 03</span>
+<h3 class="font-headline-md text-headline-md text-primary group-hover:text-secondary transition-colors">跨语言传播与 AI 同译</h3>
+</div>
+<div class="mt-auto pt-8 border-t border-outline-variant/40 flex justify-between items-center">
+<span class="font-label-sm text-on-surface-variant">3 深度评测 / 15 工具</span>
+<span class="material-symbols-outlined text-outline">east</span>
+</div>
+</div>
+<!-- Path Card 4 -->
+<div class="bg-surface border border-[#C5B358]/20 p-8 flex flex-col h-full group hover:border-secondary transition-colors cursor-pointer">
+<div class="mb-12">
+<span class="text-secondary font-label-sm block mb-4">PATH 04</span>
+<h3 class="font-headline-md text-headline-md text-primary group-hover:text-secondary transition-colors">AI 辅助决策与数据资产化</h3>
+</div>
+<div class="mt-auto pt-8 border-t border-outline-variant/40 flex justify-between items-center">
+<span class="font-label-sm text-on-surface-variant">5 深度评测 / 10 工具</span>
+<span class="material-symbols-outlined text-outline">east</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Use-Cases -->
+<section class="px-16 max-w-[1440px] mx-auto py-stack-xl">
+<h2 class="font-headline-lg text-headline-lg text-primary text-center mb-stack-xl">精选使用场景</h2>
+<div class="grid grid-cols-12 gap-gutter">
+<div class="col-span-8 group relative overflow-hidden aspect-[16/9]">
+<img alt="Strategic Research" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A high-end modern office setting with a single, sleek desk and a minimalist workstation. Large windows overlook a soft, overcast cityscape. The scene is bathed in natural, cool light, emphasizing the premium and professional environment. One digital screen displays complex data visualizations in monochromatic tones, reflecting an atmosphere of focused, intellectual AI-powered research and strategy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4Kh0mf9rRQWVPH_eGaSJe0Aq2aDBSKMtw2SYGWqhMdMRilZgbJugsk1MLV6dplAoH4y-eBPI-k6HO6r-2xgViZYSBzJ9wpeX8tP9jchCjnkucu2yNzQUx1pg5tFxumTKoFSHOvW0j5i27sly1J76yNr46fr-xkNbhpkguCm4J0p0DSSE3Y7vQUNX9LMNTPeThNUYdIpjGG63imR8fLCPBNA-zt7eKRv1rriijxBXsEKwkxc7irZs35tTFn7OE2mwOh0LPUgJEVpM"/>
+<div class="absolute inset-0 bg-black/30 flex flex-col justify-end p-12 text-white">
+<span class="font-label-sm mb-4">STRATEGY &amp; RESEARCH</span>
+<h3 class="font-headline-lg text-headline-lg mb-6">如何利用 AI 驱动深度行业趋势分析</h3>
+<p class="font-body-md opacity-80 max-w-lg mb-8">结合检索增强生成 (RAG) 技术，为您的团队构建私有知识库，实现从海量文本到洞察的跃迁。</p>
+<a class="border-b border-white w-fit pb-1 font-label-sm hover:text-secondary transition-colors" href="#">阅读方案</a>
+</div>
+</div>
+<div class="col-span-4 grid grid-rows-2 gap-gutter">
+<div class="bg-surface-container-high p-10 flex flex-col justify-center border border-outline-variant/20 hover:border-secondary transition-colors cursor-pointer">
+<span class="text-secondary font-label-sm mb-4">CREATIVE FLOW</span>
+<h3 class="font-headline-md text-headline-md mb-4 text-primary">多维视觉资产生成</h3>
+<p class="font-body-md text-on-surface-variant">探索从文生图到 3D 建模的无缝管线。</p>
+</div>
+<div class="bg-surface-container-high p-10 flex flex-col justify-center border border-outline-variant/20 hover:border-secondary transition-colors cursor-pointer">
+<span class="text-secondary font-label-sm mb-4">WORKFLOW AUTOMATION</span>
+<h3 class="font-headline-md text-headline-md mb-4 text-primary">零代码 AI 工作流编排</h3>
+<p class="font-body-md text-on-surface-variant">连接现有生产力软件，实现自动化智能链路。</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Editor's Picks Tools -->
+<section class="bg-background py-stack-xl">
+<div class="px-16 max-w-[1440px] mx-auto">
+<div class="flex justify-between items-baseline border-b border-outline-variant/40 pb-stack-sm mb-stack-lg">
+<h2 class="font-headline-lg text-headline-lg text-primary">编辑精选工具</h2>
+<div class="flex gap-8">
+<button class="text-primary font-label-sm border-b-2 border-secondary pb-1">全部</button>
+<button class="text-on-surface-variant font-label-sm hover:text-primary transition-colors">文本处理</button>
+<button class="text-on-surface-variant font-label-sm hover:text-primary transition-colors">图像影音</button>
+<button class="text-on-surface-variant font-label-sm hover:text-primary transition-colors">代码开发</button>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-gutter">
+<!-- Tool Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 p-8 group hover:shadow-lg transition-all duration-300">
+<div class="flex justify-between items-start mb-8">
+<div class="w-16 h-16 bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<span class="bg-secondary/10 text-secondary px-3 py-1 text-[10px] font-bold tracking-widest uppercase">Expert Choice</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Claude 3.5 Sonnet</h3>
+<p class="font-body-md text-on-surface-variant mb-8 line-clamp-3">目前最具“人味”的语言模型，在逻辑推理与创意写作中展现了无可比拟的细腻度。特别推荐用于长文润色与复杂逻辑分析。</p>
+<div class="flex flex-wrap gap-2 mb-8">
+<span class="text-[10px] border border-outline-variant px-2 py-0.5 text-on-surface-variant uppercase tracking-tighter">LLM</span>
+<span class="text-[10px] border border-outline-variant px-2 py-0.5 text-on-surface-variant uppercase tracking-tighter">Coding</span>
+<span class="text-[10px] border border-outline-variant px-2 py-0.5 text-on-surface-variant uppercase tracking-tighter">Research</span>
+</div>
+<a class="inline-flex items-center gap-2 text-primary font-label-sm group/btn" href="#">
+                            查看评测 <span class="material-symbols-outlined text-sm group-hover/btn:translate-x-1 transition-transform">open_in_new</span>
+</a>
+</div>
+<!-- Tool Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 p-8 group hover:shadow-lg transition-all duration-300">
+<div class="flex justify-between items-start mb-8">
+<div class="w-16 h-16 bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="brush">brush</span>
+</div>
+<span class="bg-secondary/10 text-secondary px-3 py-1 text-[10px] font-bold tracking-widest uppercase">Pro Grade</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Midjourney v6</h3>
+<p class="font-body-md text-on-surface-variant mb-8 line-clamp-3">定义了数字艺术的新标准。v6 版本在光影处理与材质拟真上达到了摄影级水准，是专业设计师不可或缺的灵感捕手。</p>
+<div class="flex flex-wrap gap-2 mb-8">
+<span class="text-[10px] border border-outline-variant px-2 py-0.5 text-on-surface-variant uppercase tracking-tighter">Image</span>
+<span class="text-[10px] border border-outline-variant px-2 py-0.5 text-on-surface-variant uppercase tracking-tighter">Design</span>
+</div>
+<a class="inline-flex items-center gap-2 text-primary font-label-sm group/btn" href="#">
+                            查看评测 <span class="material-symbols-outlined text-sm group-hover/btn:translate-x-1 transition-transform">open_in_new</span>
+</a>
+</div>
+<!-- Tool Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 p-8 group hover:shadow-lg transition-all duration-300">
+<div class="flex justify-between items-start mb-8">
+<div class="w-16 h-16 bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="terminal">terminal</span>
+</div>
+<span class="bg-secondary/10 text-secondary px-3 py-1 text-[10px] font-bold tracking-widest uppercase">Essential</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Cursor</h3>
+<p class="font-body-md text-on-surface-variant mb-8 line-clamp-3">基于 VS Code 的 AI 原生编辑器。它不仅仅是代码补全，更是理解整个项目架构的编程伴侣，极大地降低了技术门槛。</p>
+<div class="flex flex-wrap gap-2 mb-8">
+<span class="text-[10px] border border-outline-variant px-2 py-0.5 text-on-surface-variant uppercase tracking-tighter">IDE</span>
+<span class="text-[10px] border border-outline-variant px-2 py-0.5 text-on-surface-variant uppercase tracking-tighter">AI Native</span>
+</div>
+<a class="inline-flex items-center gap-2 text-primary font-label-sm group/btn" href="#">
+                            查看评测 <span class="material-symbols-outlined text-sm group-hover/btn:translate-x-1 transition-transform">open_in_new</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Recent Reviews List -->
+<section class="px-16 max-w-[1440px] mx-auto py-stack-xl border-t border-outline-variant/40">
+<div class="grid grid-cols-12 gap-gutter">
+<div class="col-span-4">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-stack-md">最新深度评测</h2>
+<p class="font-body-md text-on-surface-variant pr-12">我们拒绝浅尝辄止。每一份评测均基于 50 小时以上的真实业务场景实测，为您揭开技术背后的实操细节。</p>
+</div>
+<div class="col-span-8 space-y-8">
+<!-- Review Item 1 -->
+<div class="flex items-center gap-12 group cursor-pointer pb-8 border-b border-outline-variant/20">
+<div class="font-label-sm text-secondary w-24">2024.11.24</div>
+<div class="flex-1">
+<h4 class="font-headline-md text-headline-md text-primary group-hover:text-secondary transition-colors mb-2">Kling 与 Sora 之后的视频生成现状：我们在哪一步？</h4>
+<p class="font-body-md text-on-surface-variant">对比国产模型 Kling 与 OpenAI Sora 的生成能力，分析视频生产管线的变革。</p>
+</div>
+<div class="material-symbols-outlined text-outline group-hover:translate-x-2 transition-transform">keyboard_arrow_right</div>
+</div>
+<!-- Review Item 2 -->
+<div class="flex items-center gap-12 group cursor-pointer pb-8 border-b border-outline-variant/20">
+<div class="font-label-sm text-secondary w-24">2024.11.21</div>
+<div class="flex-1">
+<h4 class="font-headline-md text-headline-md text-primary group-hover:text-secondary transition-colors mb-2">Notion AI 彻底重构：它现在真的能替代写作伴侣吗？</h4>
+<p class="font-body-md text-on-surface-variant">实测新版 Notion AI 的协作流与知识提取能力，评估其在团队文档中的价值。</p>
+</div>
+<div class="material-symbols-outlined text-outline group-hover:translate-x-2 transition-transform">keyboard_arrow_right</div>
+</div>
+<!-- Review Item 3 -->
+<div class="flex items-center gap-12 group cursor-pointer pb-8 border-b border-outline-variant/20">
+<div class="font-label-sm text-secondary w-24">2024.11.18</div>
+<div class="flex-1">
+<h4 class="font-headline-md text-headline-md text-primary group-hover:text-secondary transition-colors mb-2">深度探讨：为什么 RAG 是中小企业落地 AI 的唯一解？</h4>
+<p class="font-body-md text-on-surface-variant">从成本与安全角度出发，拆解企业级知识库的技术路径选择。</p>
+</div>
+<div class="material-symbols-outlined text-outline group-hover:translate-x-2 transition-transform">keyboard_arrow_right</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Submit Tool CTA -->
+<section class="px-16 max-w-[1440px] mx-auto pb-stack-xl">
+<div class="bg-primary text-on-primary py-24 px-16 flex flex-col items-center text-center">
+<h2 class="font-headline-display text-headline-display mb-stack-md">发现尚未被发掘的智慧？</h2>
+<p class="font-body-lg text-on-primary-container max-w-2xl mb-stack-lg">
+                    如果您是 AI 工具的开发者，或者在工作中发现了一款改变游戏规则的神器，请告诉我们。我们将以严苛的标准进行评测。
+                </p>
+<div class="flex gap-stack-md">
+<button class="bg-on-tertiary text-primary px-10 py-5 font-headline-md hover:bg-secondary transition-colors duration-300">提交工具</button>
+<button class="border border-on-primary-container text-on-tertiary px-10 py-5 font-headline-md hover:bg-white/10 transition-colors duration-300">加入评测团</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#FDFCFA] dark:bg-[#171411] border-t border-[#C5B358]/40">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-20 px-16 py-20 max-w-[1440px] mx-auto">
+<div class="col-span-2">
+<div class="text-lg font-bold text-[#171411] dark:text-[#FDFCFA] mb-8">智选AI</div>
+<p class="font-serif text-xs leading-relaxed text-[#171411]/50 dark:text-[#FDFCFA]/50 max-w-sm">© 2024 智选AI. 致力于发现全球最具深度的AI生产力。我们通过独立评测与行业洞察，为知识工作者构建更智能的未来。</p>
+</div>
+<div>
+<h5 class="font-serif text-sm font-bold mb-8 text-[#171411] dark:text-[#FDFCFA]">探索</h5>
+<ul class="space-y-4 font-serif text-xs text-[#171411]/50 dark:text-[#FDFCFA]/50">
+<li><a class="hover:text-[#8A5A36] underline underline-offset-4 transition-all" href="#">提交工具</a></li>
+<li><a class="hover:text-[#8A5A36] underline underline-offset-4 transition-all" href="#">加入我们</a></li>
+<li><a class="hover:text-[#8A5A36] underline underline-offset-4 transition-all" href="#">媒体垂询</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-serif text-sm font-bold mb-8 text-[#171411] dark:text-[#FDFCFA]">法律</h5>
+<ul class="space-y-4 font-serif text-xs text-[#171411]/50 dark:text-[#FDFCFA]/50">
+<li><a class="hover:text-[#8A5A36] underline underline-offset-4 transition-all" href="#">隐私政策</a></li>
+<li><a class="hover:text-[#8A5A36] underline underline-offset-4 transition-all" href="#">服务条款</a></li>
+</ul>
+</div>
+</div>
+</footer>
+</body></html>
